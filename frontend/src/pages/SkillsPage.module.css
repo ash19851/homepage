@@ -1,0 +1,6 @@
+.page { min-height: 100vh; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: var(--card-gap); max-width: 1000px; margin: 0 auto; }
+.categoryCard { height: 100%; }
+.categoryTitle { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 20px; color: var(--color-accent-secondary); text-shadow: var(--glow-secondary); text-align: left; }
+.categoryTitle::after { display: none; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }

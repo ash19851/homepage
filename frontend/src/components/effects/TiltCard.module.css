@@ -1,0 +1,29 @@
+.tilt {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --glint-x: 50%;
+  --glint-y: 50%;
+  transform: perspective(800px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 0.15s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--glint-x) var(--glint-y),
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.tilt:hover::after {
+  opacity: 1;
+}

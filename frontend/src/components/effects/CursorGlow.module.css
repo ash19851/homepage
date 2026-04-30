@@ -1,0 +1,23 @@
+.glow {
+  position: fixed;
+  top: -300px;
+  left: -300px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle at center,
+    var(--color-accent-primary) 0%,
+    var(--color-accent-secondary) 25%,
+    transparent 60%
+  );
+  opacity: 0.06;
+  filter: blur(60px);
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .glow { display: none; }
+}

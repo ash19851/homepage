@@ -1,0 +1,21 @@
+.counter {
+  text-align: center;
+  padding: 20px;
+}
+
+.number {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-hero);
+  color: var(--color-accent-primary);
+  text-shadow: var(--glow-primary);
+  line-height: 1;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}

@@ -1,0 +1,57 @@
+[data-theme="void"] {
+  --color-bg-primary: #020205;
+  --color-bg-secondary: #080810;
+  --color-bg-card: rgba(10, 10, 22, 0.85);
+  --color-bg-glass: rgba(4, 4, 12, 0.6);
+  --color-bg-overlay: rgba(2, 2, 6, 0.72);
+  --color-text-primary: #f0f0ff;
+  --color-text-secondary: #8888bb;
+  --color-text-muted: #555588;
+  --color-accent-primary: #ffffff;
+  --color-accent-secondary: #4488ff;
+  --color-accent-tertiary: #8844cc;
+  --color-accent-glow: #6688cc;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-hover: rgba(255, 255, 255, 0.3);
+  --color-success: #44dd88;
+  --color-warning: #ddaa44;
+  --color-error: #dd4466;
+
+  --glow-primary: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 16px rgba(68, 136, 255, 0.1);
+  --glow-secondary: 0 0 8px rgba(68, 136, 255, 0.25);
+  --glow-text: 0 0 4px rgba(255, 255, 255, 0.2);
+  --glow-card: 0 0 12px rgba(68, 136, 255, 0.08);
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size-hero: clamp(2.6rem, 6vw, 4.8rem);
+  --font-size-h1: clamp(1.8rem, 4vw, 2.8rem);
+  --font-size-h2: clamp(1.3rem, 3vw, 1.8rem);
+  --font-size-body: 1.05rem;
+  --font-size-small: 0.85rem;
+  --line-height: 1.7;
+
+  --section-padding: 100px 24px;
+  --card-padding: 30px;
+  --card-radius: 10px;
+  --card-gap: 24px;
+  --backdrop-blur: 8px;
+
+  --transition-fast: 160ms ease;
+  --transition-normal: 280ms ease;
+  --transition-slow: 480ms ease;
+
+  --particle-color-1: #ffffff;
+  --particle-color-2: #4488ff;
+  --particle-color-3: #8844cc;
+  --particle-opacity: 0.35;
+
+  --scanline-opacity: 0.02;
+  --noise-opacity: 0.02;
+  --grid-opacity: 0.03;
+
+  --scrollbar-track: #020205;
+  --scrollbar-thumb: #334466;
+  --scrollbar-thumb-hover: #4488ff;
+}

@@ -1,0 +1,16 @@
+.hero { padding-top: 80px; }
+.heroContent { text-align: center; padding: 60px 0; }
+.greeting { font-family: var(--font-mono); font-size: var(--font-size-body); color: var(--color-text-muted); margin-bottom: 8px; }
+.name { font-family: var(--font-heading); font-size: var(--font-size-hero); font-weight: 800; color: var(--color-text-primary); text-shadow: var(--glow-text); letter-spacing: 6px; margin-bottom: 24px; }
+.typewriterLine { font-size: clamp(1.1rem, 3vw, 1.6rem); font-family: var(--font-mono); color: var(--color-text-secondary); margin-bottom: 24px; min-height: 2em; }
+.prefix { color: var(--color-text-primary); }
+.subtitle { max-width: 560px; margin: 0 auto 40px; color: var(--color-text-secondary); font-size: var(--font-size-body); }
+.cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.highlightGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--card-gap); }
+.highlightCard { text-align: center; padding: var(--card-padding); }
+.highlightIcon { color: var(--color-accent-primary); margin-bottom: 16px; display: flex; justify-content: center; }
+.highlightTitle { font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 8px; color: var(--color-text-primary); }
+.highlightTitle::after { display: none; }
+.highlightDesc { font-size: var(--font-size-small); color: var(--color-text-muted); }
+.statsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--card-gap); }
+@media (max-width: 768px) { .hero { padding-top: 40px; } .name { letter-spacing: 3px; } }

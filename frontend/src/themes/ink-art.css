@@ -1,0 +1,65 @@
+[data-theme="ink-art"] {
+  /* === 调色板 === */
+  --color-bg-primary: #f5f0e8;
+  --color-bg-secondary: #ede6d8;
+  --color-bg-card: rgba(255, 252, 245, 0.88);
+  --color-bg-glass: rgba(245, 240, 232, 0.7);
+  --color-bg-overlay: rgba(245, 240, 232, 0.8);
+  --color-text-primary: #2c2416;
+  --color-text-secondary: #6b5c3e;
+  --color-text-muted: #a09070;
+  --color-accent-primary: #1a1a1a;
+  --color-accent-secondary: #c41e3a;
+  --color-accent-tertiary: #8b4513;
+  --color-accent-glow: #d4213d;
+  --color-border: rgba(44, 36, 22, 0.1);
+  --color-border-hover: rgba(44, 36, 22, 0.22);
+  --color-success: #3d6b3d;
+  --color-warning: #c4811e;
+  --color-error: #c41e3a;
+
+  /* === 发光 — 水墨不用发光，用层次阴影 === */
+  --glow-primary: 0 3px 18px rgba(0, 0, 0, 0.06);
+  --glow-secondary: 0 2px 12px rgba(196, 30, 58, 0.08);
+  --glow-text: none;
+  --glow-card: 0 2px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+
+  /* === 排版 === */
+  --font-heading: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  --font-body: 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --font-mono: 'Cousine', monospace;
+  --font-size-hero: clamp(3rem, 7vw, 5.5rem);
+  --font-size-h1: clamp(2rem, 5vw, 3.2rem);
+  --font-size-h2: clamp(1.5rem, 3.5vw, 2.2rem);
+  --font-size-body: 1.1rem;
+  --font-size-small: 0.88rem;
+  --line-height: 2;
+
+  /* === 间距 === */
+  --section-padding: 120px 32px;
+  --card-padding: 36px;
+  --card-radius: 4px;
+  --card-gap: 36px;
+  --backdrop-blur: 2px;
+
+  /* === 动效 === */
+  --transition-fast: 250ms ease;
+  --transition-normal: 500ms ease;
+  --transition-slow: 900ms ease;
+
+  /* === 粒子 — 淡墨飞絮 === */
+  --particle-color-1: #3a3020;
+  --particle-color-2: #5c4c30;
+  --particle-color-3: #8b7355;
+  --particle-opacity: 0.15;
+
+  /* === 叠加效果 — 宣纸纹理 === */
+  --scanline-opacity: 0;
+  --noise-opacity: 0.03;
+  --grid-opacity: 0;
+
+  /* === 滚动条 === */
+  --scrollbar-track: #f5f0e8;
+  --scrollbar-thumb: #c0a888;
+  --scrollbar-thumb-hover: #8b7355;
+}

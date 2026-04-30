@@ -1,0 +1,65 @@
+[data-theme="cyberpunk"] {
+  /* === 调色板 === */
+  --color-bg-primary: #060608;
+  --color-bg-secondary: #0e0e16;
+  --color-bg-card: rgba(18, 18, 32, 0.85);
+  --color-bg-glass: rgba(8, 8, 22, 0.65);
+  --color-bg-overlay: rgba(6, 6, 8, 0.75);
+  --color-text-primary: #e8e0ff;
+  --color-text-secondary: #9888cc;
+  --color-text-muted: #6655aa;
+  --color-accent-primary: #ff0055;
+  --color-accent-secondary: #00e5ff;
+  --color-accent-tertiary: #b300ff;
+  --color-accent-glow: #ff3377;
+  --color-border: rgba(255, 0, 85, 0.25);
+  --color-border-hover: rgba(255, 0, 85, 0.55);
+  --color-success: #00ff88;
+  --color-warning: #ffbb00;
+  --color-error: #ff3355;
+
+  /* === 发光 === */
+  --glow-primary: 0 0 12px rgba(255, 0, 85, 0.5), 0 0 24px rgba(255, 0, 85, 0.2);
+  --glow-secondary: 0 0 12px rgba(0, 229, 255, 0.5), 0 0 24px rgba(0, 229, 255, 0.2);
+  --glow-text: 0 0 8px rgba(255, 0, 85, 0.4);
+  --glow-card: 0 0 20px rgba(179, 0, 255, 0.15);
+
+  /* === 排版 === */
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  --font-size-hero: clamp(2.5rem, 6vw, 4.5rem);
+  --font-size-h1: clamp(1.8rem, 4vw, 2.8rem);
+  --font-size-h2: clamp(1.3rem, 3vw, 1.8rem);
+  --font-size-body: 1.05rem;
+  --font-size-small: 0.85rem;
+  --line-height: 1.7;
+
+  /* === 间距 === */
+  --section-padding: 100px 24px;
+  --card-padding: 28px;
+  --card-radius: 6px;
+  --card-gap: 24px;
+  --backdrop-blur: 6px;
+
+  /* === 动效 === */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* === 粒子 === */
+  --particle-color-1: #ff0055;
+  --particle-color-2: #00e5ff;
+  --particle-color-3: #b300ff;
+  --particle-opacity: 0.5;
+
+  /* === 叠加效果 === */
+  --scanline-opacity: 0.04;
+  --noise-opacity: 0.025;
+  --grid-opacity: 0.06;
+
+  /* === 滚动条 === */
+  --scrollbar-track: #0a0a14;
+  --scrollbar-thumb: #ff0055;
+  --scrollbar-thumb-hover: #ff3377;
+}

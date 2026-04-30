@@ -1,0 +1,16 @@
+.neon {
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow:
+    var(--glow-primary),
+    var(--glow-secondary);
+  transition: box-shadow var(--transition-normal);
+}
+
+.neon:hover {
+  box-shadow:
+    0 0 16px rgba(255, 0, 85, 0.6),
+    0 0 32px rgba(255, 0, 85, 0.3),
+    0 0 16px rgba(0, 229, 255, 0.4),
+    0 0 32px rgba(0, 229, 255, 0.2);
+}

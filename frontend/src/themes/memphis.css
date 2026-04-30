@@ -1,0 +1,65 @@
+[data-theme="memphis"] {
+  /* === 调色板 — 80s后现代 === */
+  --color-bg-primary: #fdf6e3;
+  --color-bg-secondary: #f5edf0;
+  --color-bg-card: rgba(255, 255, 255, 0.92);
+  --color-bg-glass: rgba(253, 246, 227, 0.72);
+  --color-bg-overlay: rgba(253, 246, 227, 0.78);
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a4a5a;
+  --color-text-muted: #8888a0;
+  --color-accent-primary: #ff6b6b;
+  --color-accent-secondary: #4ecdc4;
+  --color-accent-tertiary: #ffe66d;
+  --color-accent-glow: #ff8e8e;
+  --color-border: rgba(26, 26, 46, 0.12);
+  --color-border-hover: rgba(255, 107, 107, 0.4);
+  --color-success: #2ed573;
+  --color-warning: #ffa502;
+  --color-error: #ff4757;
+
+  /* === 发光 — 大胆色彩层次 === */
+  --glow-primary: 0 4px 0 #1a1a2e;
+  --glow-secondary: 0 4px 0 #ff6b6b;
+  --glow-text: none;
+  --glow-card: 6px 6px 0 rgba(26, 26, 46, 0.1);
+
+  /* === 排版 === */
+  --font-heading: 'Bebas Neue', 'Anton', 'Impact', sans-serif;
+  --font-body: 'DM Sans', 'Inter', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-size-hero: clamp(3.5rem, 8vw, 6rem);
+  --font-size-h1: clamp(2.4rem, 5.5vw, 3.5rem);
+  --font-size-h2: clamp(1.6rem, 3.5vw, 2.2rem);
+  --font-size-body: 1.05rem;
+  --font-size-small: 0.85rem;
+  --line-height: 1.5;
+
+  /* === 间距 === */
+  --section-padding: 100px 24px;
+  --card-padding: 32px;
+  --card-radius: 0px;
+  --card-gap: 32px;
+  --backdrop-blur: 0px;
+
+  /* === 动效 === */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* === 粒子 — 彩色几何 === */
+  --particle-color-1: #ff6b6b;
+  --particle-color-2: #4ecdc4;
+  --particle-color-3: #ffe66d;
+  --particle-opacity: 0.45;
+
+  /* === 叠加效果 — 无 === */
+  --scanline-opacity: 0;
+  --noise-opacity: 0;
+  --grid-opacity: 0.08;
+
+  /* === 滚动条 === */
+  --scrollbar-track: #fdf6e3;
+  --scrollbar-thumb: #4ecdc4;
+  --scrollbar-thumb-hover: #ff6b6b;
+}

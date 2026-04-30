@@ -1,0 +1,65 @@
+[data-theme="glassmorphism"] {
+  /* === 调色板 === */
+  --color-bg-primary: #1a1a2e;
+  --color-bg-secondary: #16213e;
+  --color-bg-card: rgba(255, 255, 255, 0.08);
+  --color-bg-glass: rgba(255, 255, 255, 0.05);
+  --color-bg-overlay: rgba(26, 26, 46, 0.5);
+  --color-text-primary: #f0eef8;
+  --color-text-secondary: #c0bcd8;
+  --color-text-muted: #8884aa;
+  --color-accent-primary: #e94560;
+  --color-accent-secondary: #0f3460;
+  --color-accent-tertiary: #533483;
+  --color-accent-glow: #ff6b81;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-hover: rgba(255, 255, 255, 0.25);
+  --color-success: #2ed573;
+  --color-warning: #ffa502;
+  --color-error: #ff4757;
+
+  /* === 发光 === */
+  --glow-primary: 0 8px 32px rgba(233, 69, 96, 0.15);
+  --glow-secondary: 0 8px 32px rgba(15, 52, 96, 0.2);
+  --glow-text: none;
+  --glow-card: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  /* === 排版 === */
+  --font-heading: 'Poppins', 'SF Pro Display', sans-serif;
+  --font-body: 'Inter', 'SF Pro Text', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size-hero: clamp(2.8rem, 6vw, 4.5rem);
+  --font-size-h1: clamp(2rem, 4.5vw, 3rem);
+  --font-size-h2: clamp(1.4rem, 3vw, 2rem);
+  --font-size-body: 1.05rem;
+  --font-size-small: 0.88rem;
+  --line-height: 1.7;
+
+  /* === 间距 === */
+  --section-padding: 100px 24px;
+  --card-padding: 32px;
+  --card-radius: 20px;
+  --card-gap: 28px;
+  --backdrop-blur: 20px;
+
+  /* === 动效 === */
+  --transition-fast: 180ms ease;
+  --transition-normal: 350ms ease;
+  --transition-slow: 600ms ease;
+
+  /* === 粒子 — 彩色光斑 === */
+  --particle-color-1: #e94560;
+  --particle-color-2: #533483;
+  --particle-color-3: #0f3460;
+  --particle-opacity: 0.5;
+
+  /* === 叠加效果 === */
+  --scanline-opacity: 0;
+  --noise-opacity: 0.015;
+  --grid-opacity: 0;
+
+  /* === 滚动条 === */
+  --scrollbar-track: #1a1a2e;
+  --scrollbar-thumb: #533483;
+  --scrollbar-thumb-hover: #e94560;
+}
