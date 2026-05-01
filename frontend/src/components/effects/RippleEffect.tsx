@@ -1,21 +1,12 @@
-import { useEffect, useRef, useCallback, type MouseEvent } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import styles from './RippleEffect.module.css'
-
-interface Ripple {
-  id: number
-  x: number
-  y: number
-}
 
 export function RippleEffect() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const nextId = useRef(0)
-  const ripples = useRef<Ripple[]>([])
 
   const addRipple = useCallback((x: number, y: number) => {
     const container = containerRef.current
     if (!container) return
-    const id = nextId.current++
     const el = document.createElement('span')
     el.className = styles.ripple
     el.style.left = `${x}px`

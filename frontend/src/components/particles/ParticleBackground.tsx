@@ -15,7 +15,7 @@ export function ParticleBackground() {
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
+      particlesInit={particlesInit}
       options={particlePresets[theme]}
       style={{
         position: 'fixed',

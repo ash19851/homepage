@@ -18,7 +18,6 @@ export function StatCounter({ end, label, suffix = '', duration = 2000 }: Props)
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true
-          let start = 0
           const startTime = performance.now()
 
           const tick = (now: number) => {
