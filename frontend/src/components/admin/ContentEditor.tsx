@@ -153,9 +153,8 @@ export function ContentEditor({
             <label>分类</label>
             <select className={styles.input} value={editProject.category || 'web'} onChange={(e) => setEditProject({ ...editProject, category: e.target.value })}>
               <option value="web">Web</option>
-              <option value="game">游戏</option>
               <option value="ai">AI</option>
-              <option value="other">其他</option>
+              <option value="other">工业/工具</option>
             </select>
             <label>技术栈 (逗号分隔)</label>
             <input className={styles.input} value={Array.isArray(editProject.tech_stack) ? editProject.tech_stack.join(', ') : ''} onChange={(e) => setEditProject({ ...editProject, tech_stack: e.target.value.split(',').map((s) => s.trim()) })} />

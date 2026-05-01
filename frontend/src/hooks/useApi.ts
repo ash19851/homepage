@@ -1,8 +1,12 @@
 import { useState, useCallback } from 'react'
 import axios, { type AxiosError } from 'axios'
 
+const baseURL = import.meta.env.PROD
+  ? (import.meta.env.VITE_API_URL || '/api')
+  : '/api'
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 })

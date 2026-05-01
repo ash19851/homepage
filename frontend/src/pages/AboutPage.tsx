@@ -8,15 +8,18 @@ import * as publicService from '../services/publicService'
 import styles from './AboutPage.module.css'
 
 const TIMELINE = [
-  { year: '2026', title: '构建个人主页', desc: '使用 React + FastAPI + 多主题系统构建全栈个人主页，集成粒子动效和后台管理面板。' },
-  { year: '2026', title: 'Python 游戏开发', desc: '使用 Python 开发游戏项目，深入实践游戏逻辑、UI渲染和状态管理。' },
-  { year: '2025', title: 'AI 协作编程', desc: '深度使用 Claude Code 进行高效编程协作，探索 AI 驱动的开发工作流。' },
-  { year: '2024', title: '全栈 Web 开发', desc: 'React + TypeScript + Python 全栈技术栈沉淀，构建多个完整项目。' },
+  { year: '2026', title: '全栈个人主页', desc: 'React 19 + FastAPI + 9 种主题系统构建个人主页，AI 协作完成全流程开发，集成粒子动效与后台管理。' },
+  { year: '2018', title: 'Cisco 软电话集成', desc: '企业 IP 电话系统集成，软电话控制与状态管理，HTTP 通讯辅助。' },
+  { year: '2015', title: '打印服务中间件', desc: 'PrintServer 集中式打印服务，BarTender 引擎管理 + SSRS 报表输出，支撑生产线标签打印。' },
+  { year: '2014', title: '煤改气售后管理系统', desc: 'ASP.NET MVC 5 + Entity Framework 构建企业级售后系统，含工单管理、RBAC 权限、产品追踪、移动端 API。' },
+  { year: '2011', title: 'ERP 移动条码系统', desc: 'Windows CE PDA 手持终端开发，多品牌扫描头 SDK 封装，离线 SQLite + SOAP 同步，条码标签打印集成。' },
+  { year: '2009', title: 'IFS 移动应用', desc: '基于 IFS ERP 的工业 PDA 移动端开发，SOAP WebService 通讯，本地 SQLite 缓存，多版本迭代。' },
+  { year: '2008', title: '林内企业官网', desc: 'ASP / ASP.NET WebForms 构建企业官网与售后平台，含产品展示、新闻发布、后台管理与 BI 分析。' },
 ]
 
 const DEFAULT_PROFILE: Profile = {
-  id: 1, name: 'UNANG', title: '全栈开发者',
-  bio: '一名热衷于探索技术边界的全栈开发者。',
+  id: 1, name: 'UNANG', title: '软件开发工程师 · 工业物联网开发',
+  bio: '全栈开发者，深耕 .NET 生态与工业硬件集成。热衷 AI 协作编程探索新技术边界。',
   avatar_url: '', github_url: 'https://github.com', email: 'unang@example.com',
 }
 

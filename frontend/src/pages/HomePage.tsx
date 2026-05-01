@@ -11,15 +11,15 @@ import * as publicService from '../services/publicService'
 import styles from './HomePage.module.css'
 
 const HIGHLIGHTS = [
-  { icon: <FiCode size={24} />, title: '全栈开发', desc: 'React + FastAPI 构建现代Web应用' },
-  { icon: <FiCpu size={24} />, title: 'AI 协作编程', desc: '基于 Claude Code 的高效开发工作流' },
-  { icon: <FiLayers size={24} />, title: '多主题系统', desc: '5种科技风主题，CSS变量驱动即时切换' },
-  { icon: <FiZap size={24} />, title: '粒子动效', desc: 'tsParticles 引擎驱动沉浸式动态背景' },
+  { icon: <FiCode size={24} />, title: '.NET 企业开发', desc: 'C# / ASP.NET MVC / EF / Web API 多年实战经验' },
+  { icon: <FiCpu size={24} />, title: '工业物联网', desc: '条码扫描、PLC 通讯、Windows CE 嵌入式终端开发' },
+  { icon: <FiLayers size={24} />, title: '全栈 Web 开发', desc: 'React + FastAPI + 多主题系统构建现代应用' },
+  { icon: <FiZap size={24} />, title: 'AI 协作编程', desc: 'Claude Code 驱动高效全栈工作流' },
 ]
 
 const DEFAULT_PROFILE: Profile = {
-  id: 1, name: 'UNANG', title: '全栈开发者 · AI 协作实践者',
-  bio: '专注全栈开发与 AI 协作编程，打造科技感与实用性兼备的数字体验。',
+  id: 1, name: 'UNANG', title: '软件开发工程师 · 工业物联网开发',
+  bio: '全栈开发者，深耕 .NET 生态与工业硬件集成。热衷 AI 协作编程探索新技术边界。',
   avatar_url: '', github_url: 'https://github.com', email: 'unang@example.com',
 }
 
