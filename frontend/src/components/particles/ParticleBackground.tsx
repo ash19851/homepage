@@ -1,21 +1,24 @@
-import { useCallback } from 'react'
-import Particles from '@tsparticles/react'
+import { useEffect, useState } from 'react'
+import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
-import type { Engine } from '@tsparticles/engine'
 import { useThemeContext } from '../../themes/theme-context'
 import { particlePresets } from './particle-presets'
 
 export function ParticleBackground() {
   const { theme } = useThemeContext()
+  const [ready, setReady] = useState(false)
 
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine)
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine)
+    }).then(() => setReady(true))
   }, [])
+
+  if (!ready) return null
 
   return (
     <Particles
       id="tsparticles"
-      particlesInit={particlesInit}
       options={particlePresets[theme]}
       style={{
         position: 'fixed',
