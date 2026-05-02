@@ -14,7 +14,7 @@ const NAV_ITEMS = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
-  const [siteName, setSiteName] = useState('UNANG')
+  const [siteName, setSiteName] = useState('')
   const [visible, setVisible] = useState(true)
   const lastScrollY = useRef(0)
   const location = useLocation()
