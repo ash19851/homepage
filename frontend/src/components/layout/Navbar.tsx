@@ -20,7 +20,12 @@ export function Navbar() {
   const location = useLocation()
 
   useEffect(() => {
-    publicService.getSiteConfig().then((c) => { if (c) setSiteName(c.site_name) })
+    publicService.getSiteConfig().then((c) => {
+      if (c) {
+        setSiteName(c.site_name)
+        document.title = `${c.site_name} · 个人主页`
+      }
+    })
   }, [])
 
   // scroll-aware hide/show
