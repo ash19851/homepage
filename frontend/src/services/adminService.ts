@@ -1,5 +1,5 @@
 import { api } from './api'
-import type { Profile, Project, Skill, SiteConfig, StatsOverview, StatsTimeline, StatsPageBreakdown, LoginResponse } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, StatsOverview, StatsTimeline, StatsPageBreakdown, LoginResponse } from '../types'
 
 export async function login(username: string, password: string): Promise<LoginResponse | null> {
   try {
@@ -69,6 +69,22 @@ export async function deleteSkill(id: number): Promise<boolean> {
 
 export async function updateSiteConfig(data: Partial<SiteConfig>): Promise<SiteConfig | null> {
   try { const res = await api.put<SiteConfig>('/admin/site-config', data); return res.data } catch { return null }
+}
+
+export async function getTimeline(): Promise<TimelineEntry[]> {
+  try { const res = await api.get<TimelineEntry[]>('/admin/timeline'); return res.data } catch { return [] }
+}
+
+export async function createTimelineEntry(data: Partial<TimelineEntry>): Promise<TimelineEntry | null> {
+  try { const res = await api.post<TimelineEntry>('/admin/timeline', data); return res.data } catch { return null }
+}
+
+export async function updateTimelineEntry(id: number, data: Partial<TimelineEntry>): Promise<TimelineEntry | null> {
+  try { const res = await api.put<TimelineEntry>(`/admin/timeline/${id}`, data); return res.data } catch { return null }
+}
+
+export async function deleteTimelineEntry(id: number): Promise<boolean> {
+  try { await api.delete(`/admin/timeline/${id}`); return true } catch { return false }
 }
 
 export async function getStatsOverview(): Promise<StatsOverview | null> {

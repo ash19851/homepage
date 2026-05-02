@@ -12,6 +12,7 @@ from ..schemas.content import (
     ProjectOut, ProjectUpdate,
     SkillOut, SkillUpdate,
     SiteConfigOut, SiteConfigUpdate,
+    TimelineEntryOut, TimelineEntryUpdate,
 )
 from ..schemas.analytics import StatsOverview, StatsTimeline, StatsPageBreakdown
 
@@ -77,6 +78,28 @@ def delete_skill(skill_id: int, db: Session = Depends(get_db), _: str = Depends(
 @router.put('/site-config', response_model=SiteConfigOut)
 def update_site_config(data: SiteConfigUpdate, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
     return content_service.update_site_config(db, data.model_dump(exclude_none=True))
+
+# --- Timeline ---
+@router.get('/timeline', response_model=list[TimelineEntryOut])
+def list_timeline(db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    return content_service.get_timeline(db)
+
+@router.post('/timeline', response_model=TimelineEntryOut)
+def create_timeline_entry(data: TimelineEntryUpdate, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    return content_service.create_timeline_entry(db, data.model_dump(exclude_none=True))
+
+@router.put('/timeline/{entry_id}', response_model=TimelineEntryOut)
+def update_timeline_entry(entry_id: int, data: TimelineEntryUpdate, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    entry = content_service.update_timeline_entry(db, entry_id, data.model_dump(exclude_none=True))
+    if not entry:
+        raise HTTPException(status_code=404, detail='条目不存在')
+    return entry
+
+@router.delete('/timeline/{entry_id}')
+def delete_timeline_entry(entry_id: int, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    if not content_service.delete_timeline_entry(db, entry_id):
+        raise HTTPException(status_code=404, detail='条目不存在')
+    return {'ok': True}
 
 # --- Stats ---
 @router.get('/stats/overview', response_model=StatsOverview)

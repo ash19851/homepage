@@ -48,6 +48,14 @@ class SiteConfig(Base):
     footer_email = Column(String(200), default='')
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
+class TimelineEntry(Base):
+    __tablename__ = 'timeline_entries'
+    id = Column(Integer, primary_key=True, index=True)
+    year = Column(String(10), nullable=False)
+    title = Column(String(200), nullable=False)
+    desc = Column(Text, default='')
+    sort_order = Column(Integer, default=0)
+
 class AdminUser(Base):
     __tablename__ = 'admin_users'
     id = Column(Integer, primary_key=True, index=True)

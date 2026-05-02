@@ -75,6 +75,15 @@ export interface StatsPageBreakdown {
   count: number;
 }
 
+/* === 时间线 === */
+export interface TimelineEntry {
+  id: number;
+  year: string;
+  title: string;
+  desc: string;
+  sort_order: number;
+}
+
 /* === 站点配置 === */
 export interface SiteConfig {
   id: number;

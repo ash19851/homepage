@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..services import content_service, analytics_service
-from ..schemas.content import ProfileOut, ProjectOut, SkillOut, SiteConfigOut, VisitRequest
+from ..schemas.content import ProfileOut, ProjectOut, SkillOut, SiteConfigOut, TimelineEntryOut, VisitRequest
 
 router = APIRouter(prefix='/api/public', tags=['public'])
 
@@ -33,6 +33,10 @@ def get_skills(db: Session = Depends(get_db)):
 @router.get('/site-config', response_model=SiteConfigOut)
 def get_site_config(db: Session = Depends(get_db)):
     return content_service.get_site_config(db)
+
+@router.get('/timeline', response_model=list[TimelineEntryOut])
+def get_timeline(db: Session = Depends(get_db)):
+    return content_service.get_timeline(db)
 
 @router.post('/visit')
 def record_visit(req: VisitRequest, db: Session = Depends(get_db)):

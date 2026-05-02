@@ -17,14 +17,8 @@ const HIGHLIGHTS = [
   { icon: <FiZap size={24} />, title: 'AI 协作编程', desc: 'Claude Code 驱动高效全栈工作流' },
 ]
 
-const DEFAULT_PROFILE: Profile = {
-  id: 1, name: 'UNANG', title: '软件开发工程师 · 工业物联网开发',
-  bio: '全栈开发者，深耕 .NET 生态与工业硬件集成。热衷 AI 协作编程探索新技术边界。',
-  avatar_url: '', github_url: 'https://github.com', email: 'unang@example.com',
-}
-
 export function HomePage() {
-  const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE)
+  const [profile, setProfile] = useState<Profile | null>(null)
 
   useEffect(() => {
     publicService.getProfile().then((p) => { if (p) setProfile(p) })
@@ -36,7 +30,7 @@ export function HomePage() {
         <motion.div className={styles.heroContent}
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <p className={styles.greeting}>Hello, 我是</p>
-          <h1 className={styles.name}>{profile.name}</h1>
+          <h1 className={styles.name}>{profile?.name ?? '...'}</h1>
           <div className={styles.typewriterLine}>
             <span className={styles.prefix}>I build </span>
             <TypewriterText
@@ -44,7 +38,7 @@ export function HomePage() {
               speed={60} deleteSpeed={30} pause={2500}
             />
           </div>
-          <p className={styles.subtitle}>{profile.bio}</p>
+          <p className={styles.subtitle}>{profile?.bio ?? ''}</p>
           <div className={styles.cta}>
             <MagneticButton>
               <Link to="/projects" className="btn btn-primary">查看项目 <FiArrowRight /></Link>

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from ..models.content import Profile, Project, Skill, SiteConfig
+from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry
 
 def get_profile(db: Session) -> Profile | None:
     return db.query(Profile).first()
@@ -95,3 +95,32 @@ def update_site_config(db: Session, data: dict) -> SiteConfig:
     db.commit()
     db.refresh(config)
     return config
+
+def get_timeline(db: Session) -> list[TimelineEntry]:
+    return db.query(TimelineEntry).order_by(TimelineEntry.sort_order).all()
+
+def create_timeline_entry(db: Session, data: dict) -> TimelineEntry:
+    entry = TimelineEntry(**data)
+    db.add(entry)
+    db.commit()
+    db.refresh(entry)
+    return entry
+
+def update_timeline_entry(db: Session, entry_id: int, data: dict) -> TimelineEntry | None:
+    entry = db.query(TimelineEntry).filter(TimelineEntry.id == entry_id).first()
+    if not entry:
+        return None
+    for k, v in data.items():
+        if v is not None:
+            setattr(entry, k, v)
+    db.commit()
+    db.refresh(entry)
+    return entry
+
+def delete_timeline_entry(db: Session, entry_id: int) -> bool:
+    entry = db.query(TimelineEntry).filter(TimelineEntry.id == entry_id).first()
+    if not entry:
+        return False
+    db.delete(entry)
+    db.commit()
+    return True

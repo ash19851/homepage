@@ -5,7 +5,7 @@ import type { Project } from '../types'
 import * as publicService from '../services/publicService'
 import styles from './ProjectsPage.module.css'
 
-const CATEGORIES = ['all', 'web', 'ai', 'other']
+const CATEGORIES = ['all', 'web', 'ai', 'game', 'other']
 
 export function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -34,7 +34,7 @@ export function ProjectsPage() {
                 className={`${styles.filterBtn} ${filter === cat ? styles.filterActive : ''}`}
                 onClick={() => setFilter(cat)}
               >
-                {cat === 'all' ? '全部' : cat === 'web' ? 'Web' : cat === 'ai' ? 'AI' : '工业/工具'}
+                {cat === 'all' ? '全部' : cat === 'web' ? 'Web' : cat === 'ai' ? 'AI' : cat === 'game' ? '游戏' : '工业/工具'}
               </button>
             ))}
           </div>

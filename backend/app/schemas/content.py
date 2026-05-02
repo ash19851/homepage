@@ -52,5 +52,12 @@ class SiteConfigUpdate(BaseModel):
     site_name: Optional[str] = None; footer_text: Optional[str] = None
     footer_github: Optional[str] = None; footer_email: Optional[str] = None
 
+class TimelineEntryOut(BaseModel):
+    id: int; year: str; title: str; desc: str; sort_order: int
+    model_config = {'from_attributes': True}
+
+class TimelineEntryUpdate(BaseModel):
+    year: Optional[str] = None; title: Optional[str] = None; desc: Optional[str] = None; sort_order: Optional[int] = None
+
 class VisitRequest(BaseModel):
     page_path: str

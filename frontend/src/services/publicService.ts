@@ -1,5 +1,5 @@
 import { api } from './api'
-import type { Profile, Project, Skill, SiteConfig } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry } from '../types'
 
 function parseProject(p: Project): Project {
   if (typeof p.tech_stack === 'string') {
@@ -35,6 +35,13 @@ export async function getSiteConfig(): Promise<SiteConfig | null> {
     const res = await api.get<SiteConfig>('/public/site-config')
     return res.data
   } catch { return null }
+}
+
+export async function getTimeline(): Promise<TimelineEntry[]> {
+  try {
+    const res = await api.get<TimelineEntry[]>('/public/timeline')
+    return res.data || []
+  } catch { return [] }
 }
 
 export async function recordVisit(pagePath: string): Promise<void> {
