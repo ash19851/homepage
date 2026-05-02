@@ -1,11 +1,26 @@
 import { api } from './api'
 import type { Profile, Project, Skill, SiteConfig, TimelineEntry, StatsOverview, StatsTimeline, StatsPageBreakdown, LoginResponse } from '../types'
 
-export async function login(username: string, password: string): Promise<LoginResponse | null> {
+export async function getCaptcha(): Promise<{ token: string; question: string } | null> {
   try {
-    const res = await api.post<LoginResponse>('/admin/login', { username, password })
+    const res = await api.get<{ token: string; question: string }>('/admin/captcha')
     return res.data
   } catch { return null }
+}
+
+export async function login(username: string, password: string, captchaToken: string, captchaAnswer: string): Promise<LoginResponse | string> {
+  try {
+    const res = await api.post<LoginResponse>('/admin/login', {
+      username, password,
+      captcha_token: captchaToken,
+      captcha_answer: captchaAnswer,
+    })
+    return res.data
+  } catch (err: any) {
+    const detail = err?.response?.data?.detail
+    if (typeof detail === 'string') return detail
+    return '登录失败'
+  }
 }
 
 export async function changePassword(newPassword: string): Promise<boolean> {

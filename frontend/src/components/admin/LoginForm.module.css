@@ -4,3 +4,7 @@
 .input { padding: 12px 16px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--card-radius); color: var(--color-text-primary); font-family: var(--font-mono); font-size: var(--font-size-body); outline: none; transition: border-color var(--transition-fast); }
 .input:focus { border-color: var(--color-accent-primary); }
 .submit { width: 100%; justify-content: center; padding: 12px; }
+.captchaRow { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: var(--card-radius); font-family: var(--font-mono); font-size: 1.1rem; color: var(--color-accent-primary); letter-spacing: 1px; user-select: none; }
+.captchaQuestion { flex: 1; }
+.captchaRefresh { background: none; border: none; color: var(--color-text-muted); font-size: 1.3rem; cursor: pointer; padding: 0 4px; transition: color 0.2s; }
+.captchaRefresh:hover { color: var(--color-accent-primary); }

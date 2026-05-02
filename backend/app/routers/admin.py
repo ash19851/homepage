@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
+from datetime import datetime, timedelta
 from ..database import get_db
 from ..auth.jwt import create_token
+from ..auth.captcha import generate_captcha, verify_captcha
 from ..auth.dependencies import get_current_user
-from ..models.content import AdminUser
+from ..models.content import AdminUser, LoginAttempt
 from ..services import content_service, analytics_service
 from ..schemas.content import (
     LoginRequest, LoginResponse,
@@ -19,11 +21,45 @@ from ..schemas.analytics import StatsOverview, StatsTimeline, StatsPageBreakdown
 
 router = APIRouter(prefix='/api/admin', tags=['admin'])
 
+MAX_FAILED_ATTEMPTS = 5
+LOCKOUT_MINUTES = 30
+
+@router.get('/captcha')
+def get_captcha():
+    return generate_captcha()
+
 @router.post('/login', response_model=LoginResponse)
-def login(req: LoginRequest, db: Session = Depends(get_db)):
+def login(req: LoginRequest, request: Request, db: Session = Depends(get_db)):
+    client_ip = request.client.host if request.client else 'unknown'
+
+    # Check if IP is locked out
+    now = datetime.utcnow()
+    cutoff = now - timedelta(minutes=LOCKOUT_MINUTES)
+    recent_fails = db.query(LoginAttempt).filter(
+        LoginAttempt.ip_address == client_ip,
+        LoginAttempt.attempted_at > cutoff,
+        LoginAttempt.success == False,
+    ).order_by(LoginAttempt.attempted_at.desc()).limit(MAX_FAILED_ATTEMPTS).all()
+
+    if len(recent_fails) >= MAX_FAILED_ATTEMPTS:
+        wait = int((recent_fails[0].attempted_at + timedelta(minutes=LOCKOUT_MINUTES) - now).total_seconds() / 60) + 1
+        raise HTTPException(status_code=429, detail=f'登录已被锁定，请 {wait} 分钟后重试')
+
+    # Validate captcha
+    if not verify_captcha(req.captcha_token, req.captcha_answer):
+        db.add(LoginAttempt(ip_address=client_ip, success=False))
+        db.commit()
+        raise HTTPException(status_code=401, detail='验证码错误')
+
+    # Validate credentials
     user = db.query(AdminUser).filter(AdminUser.username == req.username).first()
     if not user or not bcrypt.verify(req.password, user.password_hash):
+        db.add(LoginAttempt(ip_address=client_ip, success=False))
+        db.commit()
         raise HTTPException(status_code=401, detail='用户名或密码错误')
+
+    db.add(LoginAttempt(ip_address=client_ip, success=True))
+    db.commit()
     return {'access_token': create_token(req.username)}
 
 @router.put('/password')

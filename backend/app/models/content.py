@@ -70,3 +70,10 @@ class AdminUser(Base):
     username = Column(String(100), unique=True, nullable=False)
     password_hash = Column(String(200), nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class LoginAttempt(Base):
+    __tablename__ = 'login_attempts'
+    id = Column(Integer, primary_key=True, index=True)
+    ip_address = Column(String(50), nullable=False, index=True)
+    attempted_at = Column(DateTime, default=datetime.utcnow)
+    success = Column(Boolean, default=False)

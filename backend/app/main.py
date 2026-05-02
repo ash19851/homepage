@@ -32,7 +32,8 @@ def _seed_if_empty():
 
     db = SessionLocal()
     try:
-        if db.query(AdminUser).first():
+        existing = db.query(AdminUser).first()
+        if existing:
             return
 
         db.add(AdminUser(username='admin', password_hash=bcrypt.hash('admin123')))

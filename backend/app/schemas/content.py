@@ -39,7 +39,7 @@ class SkillUpdate(BaseModel):
     icon: Optional[str] = None; sort_order: Optional[int] = None
 
 class LoginRequest(BaseModel):
-    username: str; password: str
+    username: str; password: str; captcha_token: str = ''; captcha_answer: str = ''
 
 class LoginResponse(BaseModel):
     access_token: str
