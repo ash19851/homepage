@@ -11,9 +11,9 @@ def get_profile(db: Session = Depends(get_db)):
     profile = content_service.get_profile(db)
     if not profile:
         content_service.update_profile(db, {
-            'name': 'UNANG', 'title': '全栈开发者',
+            'name': 'ash', 'title': '全栈开发者',
             'bio': '热衷于探索技术边界的全栈开发者。',
-            'avatar_url': '', 'github_url': '', 'email': 'unang@example.com'
+            'avatar_url': '', 'github_url': '', 'email': 'ash@example.com'
         })
         profile = content_service.get_profile(db)
     return profile
@@ -42,3 +42,14 @@ def get_timeline(db: Session = Depends(get_db)):
 def record_visit(req: VisitRequest, db: Session = Depends(get_db)):
     analytics_service.record_visit(db, req.page_path)
     return {'ok': True}
+
+# --- 留言 ---
+from ..schemas.content import GuestbookMessageCreate, GuestbookMessageOut
+
+@router.get('/guestbook', response_model=list[GuestbookMessageOut])
+def list_guestbook(db: Session = Depends(get_db)):
+    return content_service.get_guestbook_messages(db)
+
+@router.post('/guestbook', response_model=GuestbookMessageOut)
+def create_guestbook(data: GuestbookMessageCreate, db: Session = Depends(get_db)):
+    return content_service.create_guestbook_message(db, data.model_dump())

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ThemeProvider } from './themes/theme-context'
 import { PageShell } from './components/layout/PageShell'
-import { ThemeSwitcher } from './components/ui/ThemeSwitcher'
 import { ParticleBackground } from './components/particles/ParticleBackground'
 import { CursorGlow } from './components/effects/CursorGlow'
 import { RippleEffect } from './components/effects/RippleEffect'
@@ -9,6 +9,7 @@ import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { AboutPage } from './pages/AboutPage'
 import { SkillsPage } from './pages/SkillsPage'
+import { ToolsPage } from './pages/ToolsPage'
 import { AdminLogin } from './admin-pages/AdminLogin'
 import { AdminDashboard } from './admin-pages/AdminDashboard'
 import { AdminContent } from './admin-pages/AdminContent'
@@ -20,16 +21,18 @@ import { ProtectedRoute } from './components/admin/ProtectedRoute'
 export default function App() {
   return (
     <BrowserRouter>
-      <CursorGlow />
-      <RippleEffect />
-      <ParticleBackground />
-      <Routes>
+      <ThemeProvider>
+        <CursorGlow />
+        <RippleEffect />
+        <ParticleBackground />
+        <Routes>
         {/* 公开页面 */}
         <Route element={<PageShell />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/skills" element={<SkillsPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
         </Route>
 
         {/* 后台登录 */}
@@ -50,8 +53,8 @@ export default function App() {
           <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
-      <ThemeSwitcher />
-      <ScrollToTop />
+        <ScrollToTop />
+      </ThemeProvider>
     </BrowserRouter>
   )
 }

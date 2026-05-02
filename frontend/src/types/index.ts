@@ -88,6 +88,7 @@ export interface TimelineEntry {
 export interface SiteConfig {
   id: number;
   site_name: string;
+  site_theme: string | null;
   footer_text: string;
   footer_github: string;
   footer_email: string;
@@ -106,4 +107,11 @@ export interface LoginResponse {
 export interface AdminSettings {
   username: string;
   password?: string;
+}
+
+export interface GuestbookMessage {
+  id: number;
+  name: string;
+  message: string;
+  created_at: string;
 }

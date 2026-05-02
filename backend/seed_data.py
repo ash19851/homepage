@@ -17,9 +17,9 @@ if not db.query(AdminUser).first():
 # 个人资料
 if not db.query(Profile).first():
     db.add(Profile(
-        name='UNANG', title='软件开发工程师 · 工业物联网开发',
-        bio='全栈开发者，深耕 .NET 生态与工业硬件集成。擅长 ASP.NET MVC、Windows CE 嵌入式开发、条码/PLC 等工业通讯协议，热衷 AI 协作编程探索新技术边界。',
-        avatar_url='', github_url='https://github.com', email='unang@example.com'
+        name='ash', title='软件开发工程师 · 工业物联网开发',
+        bio='全栈开发者，深耕 .NET 生态与工业硬件集成，兼备 AI/ML 工程化能力。热衷探索计算机视觉、LLM 微调、游戏开发等前沿技术，善用 AI 协作高效完成全栈项目。',
+        avatar_url='', github_url='https://github.com', email='ash@example.com'
     ))
 
 # 项目
@@ -27,20 +27,20 @@ if not db.query(Project).first():
     projects = [
         # ===== 工业/企业项目 (简历) =====
         Project(
-            title='林内售后管理系统', sort_order=1,
+            title='售后管理系统', sort_order=1,
             description='企业级售后服务管理系统，支撑煤改气工程项目。涵盖工单全生命周期管理、多角色 RBAC 权限体系、产品序列号追踪，经典 ASP.NET MVC 5 三层架构。',
             tech_stack=json.dumps(['C#', 'ASP.NET MVC 5', 'Entity Framework 6', 'Dapper', 'Unity DI', 'OAuth 2.0', 'SQL Server', 'Bootstrap']),
             category='web', featured=True, github_url='',
         ),
         Project(
             title='ERP 移动条码系统 — ERPBCS', sort_order=2,
-            description='林内 ERP 移动端 PDA 解决方案。实时库存盘点、出入库扫码、离线 SQLite 缓存 + SOAP Web Service 同步，多品牌扫描头 SDK 统一封装。',
+            description='ERP 移动端 PDA 解决方案。实时库存盘点、出入库扫码、离线 SQLite 缓存 + SOAP Web Service 同步，多品牌扫描头 SDK 统一封装。',
             tech_stack=json.dumps(['C#', '.NET Compact Framework', 'Windows CE', 'MySQL', 'SQLite', 'SOAP Web Service', 'WinForm']),
             category='other', featured=True, github_url='',
         ),
         Project(
-            title='林内企业官网 + 售后平台', sort_order=3,
-            description='林内中国官方网站及在线售后服务平台。含产品展示、新闻发布、在线售后申请、维修材料管理、后台统一管理门户及 BI 决策分析系统。',
+            title='企业官网 + 售后平台', sort_order=3,
+            description='企业官方网站及在线售后服务平台。含产品展示、新闻发布、在线售后申请、维修材料管理、后台统一管理门户及 BI 决策分析系统。',
             tech_stack=json.dumps(['ASP.NET WebForms', 'C#', 'MySQL', 'AjaxControlToolkit', 'Web Service', 'SSRS']),
             category='web', featured=True, github_url='',
         ),
@@ -93,6 +93,49 @@ if not db.query(Project).first():
             tech_stack=json.dumps(['Python', 'Pygame', 'OOP']),
             category='game', featured=False, github_url='https://github.com',
         ),
+        # ===== E:\githublocal 项目 =====
+        Project(
+            title='AI 模型微调工具集 — aitrain', sort_order=12,
+            description='Qwen 系列大模型本地指令微调工具包，适配 RTX 5090 32GB。含 QLoRA 训练 GUI、Ollama 训练数据生成器、Gradio 6 流式对话界面 (思考过程可视化)、PyQt6 桌面客户端、LoRA 适配器合并脚本。',
+            tech_stack=json.dumps(['Python', 'PyTorch', 'Transformers', 'PEFT/QLoRA', 'bitsandbytes', 'Gradio 6', 'PyQt6', 'Ollama', 'aiohttp']),
+            category='ai', featured=True, github_url='https://github.com',
+        ),
+        Project(
+            title='单目深度估计 — depth-anything', sort_order=13,
+            description='基于 Depth Anything V2 (HKU/TikTok) 的单目深度估计项目。支持 Small~Giant 四种模型规格，含实时摄像头深度检测 (RGB+深度并列)、MediaPipe 手势识别 + AR 虚实遮挡演示。',
+            tech_stack=json.dumps(['Python', 'PyTorch', 'OpenCV', 'Gradio', 'MediaPipe', 'DINOv2', 'DPT']),
+            category='ai', featured=True, github_url='https://github.com',
+        ),
+        Project(
+            title='钓鱼邮件演练系统 — diuyumail', sort_order=14,
+            description='企业钓鱼邮件模拟与安全意识培训平台。7 种邮件模板 (HR奖金/IT维护/CEO通知/发票等)，SMTP 批量发送，追踪点击者 IP/浏览器/UA，受害者跳转安全教育页面。含 Web 管理后台、PyInstaller 打包。',
+            tech_stack=json.dumps(['Python', 'Flask', 'SQLite', 'Pandas', 'openpyxl', 'PyInstaller', 'Bootstrap']),
+            category='web', featured=True, github_url='https://github.com',
+        ),
+        Project(
+            title='游戏视觉检测工具 — game-vision', sort_order=15,
+            description='Windows 实时游戏画面捕获与 YOLO 目标检测工具。DXCam/DirectX 高速截屏、DWM 缩略图后台捕获、BitBlt 兼容回退，YOLOv8-v11 实时推理，含交互式标注数据采集工具。',
+            tech_stack=json.dumps(['Python', 'PyTorch', 'YOLO', 'OpenCV', 'DXCam', 'pynput', 'Tkinter']),
+            category='ai', featured=True, github_url='https://github.com',
+        ),
+        Project(
+            title='像素肉鸽游戏 — rouggame', sort_order=16,
+            description='2D 像素 Roguelike 游戏。过程生成房间、多种门类型 (战斗/资源/解谜)、ECS 架构、场景状态机、经验升级 + 技能选择、装备局间继承 (JSON)、Boss 战、粒子特效和程序化像素精灵。所有游戏数值 JSON 可配置。',
+            tech_stack=json.dumps(['Python', 'Pygame-CE', 'JSON', 'ECS', 'Procedural Generation']),
+            category='game', featured=True, github_url='https://github.com',
+        ),
+        Project(
+            title='SAP 数据抽取工具 — getsaotorj', sort_order=17,
+            description='SAP HANA 业务数据抽取与邮件分发工具。连接 SAP HANA 拉取主数据 (销售渠道/产品/客户) 和交易数据 (财务凭证/交货/库存)，CSV 导出 + Outlook COM 自动化邮件分发，含归档目录自动备份。',
+            tech_stack=json.dumps(['Python', 'hdbcli (SAP HANA)', 'Pandas', 'pywin32', 'Outlook COM']),
+            category='other', featured=False, github_url='https://github.com',
+        ),
+        Project(
+            title='IT满意度调查系统 — wenjuandiaocha', sort_order=18,
+            description='IT 服务满意度在线调查平台。批量生成一次性调查链接、SMTP 邮件群发、1-5 分评分 + 文本反馈收集。后台 Chart.js 柱状图统计、平均分展示、评论浏览。Bootstrap 5 响应式前端。',
+            tech_stack=json.dumps(['Python', 'Flask', 'SQLite', 'openpyxl', 'Bootstrap 5', 'Chart.js', 'smtplib']),
+            category='web', featured=False, github_url='https://github.com',
+        ),
     ]
     db.add_all(projects)
 
@@ -123,6 +166,20 @@ if not db.query(Skill).first():
         Skill(name='Claude Code / AI 协作', category='tools', level=88, icon='🤖', sort_order=18),
         Skill(name='Git / 版本控制', category='tools', level=82, icon='📦', sort_order=19),
         Skill(name='SSRS / 水晶报表', category='tools', level=75, icon='📊', sort_order=20),
+        # ===== AI/ML =====
+        Skill(name='PyTorch / 深度学习', category='ai', level=78, icon='🔥', sort_order=21),
+        Skill(name='Transformers / QLoRA', category='ai', level=72, icon='🧠', sort_order=22),
+        Skill(name='YOLO 目标检测', category='ai', level=75, icon='👁️', sort_order=23),
+        Skill(name='OpenCV 计算机视觉', category='ai', level=72, icon='📷', sort_order=24),
+        # ===== 后端 =====
+        Skill(name='Flask', category='backend', level=78, icon='🍶', sort_order=25),
+        # ===== 前端 =====
+        Skill(name='Gradio / 交互式 AI UI', category='frontend', level=72, icon='🖥️', sort_order=26),
+        # ===== 工具 =====
+        Skill(name='Pygame-CE', category='tools', level=75, icon='🎮', sort_order=27),
+        Skill(name='PyInstaller 打包部署', category='tools', level=70, icon='📦', sort_order=28),
+        Skill(name='安全意识培训 / 钓鱼演练', category='tools', level=85, icon='🛡️', sort_order=29),
+        Skill(name='SAP HANA / 数据库', category='tools', level=68, icon='🏢', sort_order=30),
     ]
     db.add_all(skills)
 

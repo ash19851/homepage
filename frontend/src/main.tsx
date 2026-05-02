@@ -11,12 +11,9 @@ import './themes/glassmorphism.css'
 import './themes/ink-art.css'
 import './themes/memphis.css'
 import App from './App.tsx'
-import { ThemeProvider } from './themes/theme-context'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <App />
   </StrictMode>,
 )

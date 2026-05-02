@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry
+from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage
 
 def get_profile(db: Session) -> Profile | None:
     return db.query(Profile).first()
@@ -81,7 +81,7 @@ def delete_skill(db: Session, skill_id: int) -> bool:
 def get_site_config(db: Session) -> SiteConfig:
     config = db.query(SiteConfig).first()
     if not config:
-        config = SiteConfig(site_name='UNANG', footer_text='Built with Claude Code.', footer_github='https://github.com', footer_email='')
+        config = SiteConfig(site_name='ash', footer_text='Built with Claude Code.', footer_github='https://github.com', footer_email='')
         db.add(config)
         db.commit()
         db.refresh(config)
@@ -122,5 +122,23 @@ def delete_timeline_entry(db: Session, entry_id: int) -> bool:
     if not entry:
         return False
     db.delete(entry)
+    db.commit()
+    return True
+
+def get_guestbook_messages(db: Session, limit: int = 50) -> list[GuestbookMessage]:
+    return db.query(GuestbookMessage).order_by(GuestbookMessage.created_at.desc()).limit(limit).all()
+
+def create_guestbook_message(db: Session, data: dict) -> GuestbookMessage:
+    msg = GuestbookMessage(**data)
+    db.add(msg)
+    db.commit()
+    db.refresh(msg)
+    return msg
+
+def delete_guestbook_message(db: Session, msg_id: int) -> bool:
+    msg = db.query(GuestbookMessage).filter(GuestbookMessage.id == msg_id).first()
+    if not msg:
+        return False
+    db.delete(msg)
     db.commit()
     return True

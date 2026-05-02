@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { path: '/projects', label: '项目' },
   { path: '/about', label: '关于' },
   { path: '/skills', label: '技能' },
+  { path: '/tools', label: '工具' },
 ]
 
 export function Navbar() {

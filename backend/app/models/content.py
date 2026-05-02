@@ -5,7 +5,7 @@ from ..database import Base
 class Profile(Base):
     __tablename__ = 'profiles'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), default='UNANG')
+    name = Column(String(100), default='ash')
     title = Column(String(200), default='全栈开发者')
     bio = Column(Text, default='')
     avatar_url = Column(String(500), default='')
@@ -42,7 +42,8 @@ class Skill(Base):
 class SiteConfig(Base):
     __tablename__ = 'site_config'
     id = Column(Integer, primary_key=True, index=True)
-    site_name = Column(String(100), default='UNANG')
+    site_name = Column(String(100), default='ash')
+    site_theme = Column(String(50), nullable=True, default=None)
     footer_text = Column(String(500), default='Built with Claude Code.')
     footer_github = Column(String(500), default='https://github.com')
     footer_email = Column(String(200), default='')
@@ -55,6 +56,13 @@ class TimelineEntry(Base):
     title = Column(String(200), nullable=False)
     desc = Column(Text, default='')
     sort_order = Column(Integer, default=0)
+
+class GuestbookMessage(Base):
+    __tablename__ = 'guestbook_messages'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False)
+    message = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 class AdminUser(Base):
     __tablename__ = 'admin_users'

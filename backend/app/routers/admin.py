@@ -13,6 +13,7 @@ from ..schemas.content import (
     SkillOut, SkillUpdate,
     SiteConfigOut, SiteConfigUpdate,
     TimelineEntryOut, TimelineEntryUpdate,
+    GuestbookMessageOut,
 )
 from ..schemas.analytics import StatsOverview, StatsTimeline, StatsPageBreakdown
 
@@ -99,6 +100,17 @@ def update_timeline_entry(entry_id: int, data: TimelineEntryUpdate, db: Session 
 def delete_timeline_entry(entry_id: int, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
     if not content_service.delete_timeline_entry(db, entry_id):
         raise HTTPException(status_code=404, detail='条目不存在')
+    return {'ok': True}
+
+# --- Guestbook ---
+@router.get('/guestbook', response_model=list[GuestbookMessageOut])
+def admin_list_guestbook(db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    return content_service.get_guestbook_messages(db, limit=100)
+
+@router.delete('/guestbook/{msg_id}')
+def delete_guestbook(msg_id: int, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    if not content_service.delete_guestbook_message(db, msg_id):
+        raise HTTPException(status_code=404, detail='留言不存在')
     return {'ok': True}
 
 # --- Stats ---

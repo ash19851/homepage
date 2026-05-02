@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Profile, Project, Skill, SiteConfig, TimelineEntry } from '../../types'
+import { THEMES } from '../../types'
 import styles from './ContentEditor.module.css'
 
 interface Props {
@@ -36,8 +37,8 @@ export function ContentEditor({
   useEffect(() => { if (profile) setPf({ name: profile.name, title: profile.title, bio: profile.bio, email: profile.email, github_url: profile.github_url }) }, [profile])
 
   // Site config form
-  const [sc, setSc] = useState({ site_name: '', footer_text: '', footer_github: '', footer_email: '' })
-  useEffect(() => { if (siteConfig) setSc({ site_name: siteConfig.site_name, footer_text: siteConfig.footer_text, footer_github: siteConfig.footer_github, footer_email: siteConfig.footer_email }) }, [siteConfig])
+  const [sc, setSc] = useState({ site_name: '', site_theme: '', footer_text: '', footer_github: '', footer_email: '' })
+  useEffect(() => { if (siteConfig) setSc({ site_name: siteConfig.site_name, site_theme: siteConfig.site_theme || '', footer_text: siteConfig.footer_text, footer_github: siteConfig.footer_github, footer_email: siteConfig.footer_email }) }, [siteConfig])
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 2000) }
 
@@ -150,7 +151,14 @@ export function ContentEditor({
           <h3>站点设置</h3>
           <p className={styles.muted} style={{ marginBottom: 8 }}>编辑页眉和页脚显示的内容</p>
           <label>网站名称 (页眉 Logo)</label>
-          <input className={styles.input} value={sc.site_name} onChange={(e) => setSc({ ...sc, site_name: e.target.value })} placeholder="UNANG" />
+          <input className={styles.input} value={sc.site_name} onChange={(e) => setSc({ ...sc, site_name: e.target.value })} placeholder="ash" />
+          <label>全局主题 (设为 "--" 则允许访客自由切换)</label>
+          <select className={styles.input} value={sc.site_theme} onChange={(e) => setSc({ ...sc, site_theme: e.target.value })}>
+            <option value="">-- 由访客选择 --</option>
+            {THEMES.map((t) => (
+              <option key={t.key} value={t.key}>{t.label} — {t.description}</option>
+            ))}
+          </select>
           <label>页脚文字</label>
           <input className={styles.input} value={sc.footer_text} onChange={(e) => setSc({ ...sc, footer_text: e.target.value })} placeholder="Built with Claude Code." />
           <label>页脚 GitHub 链接</label>
@@ -208,6 +216,7 @@ export function ContentEditor({
             <select className={styles.input} value={editSkill.category || 'other'} onChange={(e) => setEditSkill({ ...editSkill, category: e.target.value })}>
               <option value="frontend">前端</option>
               <option value="backend">后端</option>
+              <option value="ai">AI/ML</option>
               <option value="tools">工具</option>
               <option value="other">其他</option>
             </select>

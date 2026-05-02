@@ -1,5 +1,5 @@
 import { api } from './api'
-import type { Profile, Project, Skill, SiteConfig, TimelineEntry } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage } from '../types'
 
 function parseProject(p: Project): Project {
   if (typeof p.tech_stack === 'string') {
@@ -42,6 +42,20 @@ export async function getTimeline(): Promise<TimelineEntry[]> {
     const res = await api.get<TimelineEntry[]>('/public/timeline')
     return res.data || []
   } catch { return [] }
+}
+
+export async function getGuestbook(): Promise<GuestbookMessage[]> {
+  try {
+    const res = await api.get<GuestbookMessage[]>('/public/guestbook')
+    return res.data || []
+  } catch { return [] }
+}
+
+export async function postGuestbook(name: string, message: string): Promise<GuestbookMessage | null> {
+  try {
+    const res = await api.post<GuestbookMessage>('/public/guestbook', { name, message })
+    return res.data
+  } catch { return null }
 }
 
 export async function recordVisit(pagePath: string): Promise<void> {

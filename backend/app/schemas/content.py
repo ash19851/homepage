@@ -45,11 +45,11 @@ class LoginResponse(BaseModel):
     access_token: str
 
 class SiteConfigOut(BaseModel):
-    id: int; site_name: str; footer_text: str; footer_github: str; footer_email: str
+    id: int; site_name: str; site_theme: Optional[str] = None; footer_text: str; footer_github: str; footer_email: str
     model_config = {'from_attributes': True}
 
 class SiteConfigUpdate(BaseModel):
-    site_name: Optional[str] = None; footer_text: Optional[str] = None
+    site_name: Optional[str] = None; site_theme: Optional[str] = None; footer_text: Optional[str] = None
     footer_github: Optional[str] = None; footer_email: Optional[str] = None
 
 class TimelineEntryOut(BaseModel):
@@ -61,3 +61,10 @@ class TimelineEntryUpdate(BaseModel):
 
 class VisitRequest(BaseModel):
     page_path: str
+
+class GuestbookMessageCreate(BaseModel):
+    name: str; message: str
+
+class GuestbookMessageOut(BaseModel):
+    id: int; name: str; message: str; created_at: datetime
+    model_config = {'from_attributes': True}

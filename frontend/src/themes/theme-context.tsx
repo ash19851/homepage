@@ -1,51 +1,40 @@
-import { createContext, useContext, useEffect, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import type { ThemeName } from '../types';
+import * as publicService from '../services/publicService';
 
-/* === State & Reducer === */
-interface ThemeState {
-  current: ThemeName;
+const ALL_THEMES: ThemeName[] = ['cyberpunk', 'matrix', 'aurora', 'void', 'synthwave', 'minimal-white', 'glassmorphism', 'ink-art', 'memphis'];
+
+function isValidTheme(t: string | null | undefined): t is ThemeName {
+  return !!t && ALL_THEMES.includes(t as ThemeName);
 }
 
-type ThemeAction = { type: 'SET_THEME'; payload: ThemeName };
-
-function themeReducer(state: ThemeState, action: ThemeAction): ThemeState {
-  switch (action.type) {
-    case 'SET_THEME':
-      document.documentElement.setAttribute('data-theme', action.payload);
-      localStorage.setItem('theme', action.payload);
-      return { current: action.payload };
-    default:
-      return state;
-  }
-}
-
-function getInitialTheme(): ThemeName {
-  const saved = localStorage.getItem('theme') as ThemeName | null;
-  if (saved && ['cyberpunk', 'matrix', 'aurora', 'void', 'synthwave', 'minimal-white', 'glassmorphism', 'ink-art', 'memphis'].includes(saved)) {
-    return saved;
-  }
-  return 'cyberpunk';
-}
-
-/* === Context === */
 interface ThemeContextValue {
   theme: ThemeName;
-  setTheme: (t: ThemeName) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(themeReducer, { current: getInitialTheme() });
+  const [theme, setTheme] = useState<ThemeName>('cyberpunk');
+  const location = useLocation();
 
+  // Apply theme to DOM whenever it changes
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', state.current);
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
-  const setTheme = (theme: ThemeName) => dispatch({ type: 'SET_THEME', payload: theme });
+  // Fetch admin-configured theme from backend (re-fetch on route change)
+  useEffect(() => {
+    publicService.getSiteConfig().then((config) => {
+      if (config?.site_theme && isValidTheme(config.site_theme)) {
+        setTheme(config.site_theme);
+      }
+    });
+  }, [location.pathname]);
 
   return (
-    <ThemeContext.Provider value={{ theme: state.current, setTheme }}>
+    <ThemeContext.Provider value={{ theme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -8,6 +8,7 @@ import styles from './SkillsPage.module.css'
 const CATEGORY_LABELS: Record<string, string> = {
   frontend: '前端技术',
   backend: '后端与数据库',
+  ai: 'AI / 机器学习',
   tools: '工业与工具链',
   other: '其他',
 }
