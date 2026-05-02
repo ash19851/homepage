@@ -62,6 +62,9 @@ class TimelineEntryUpdate(BaseModel):
 class VisitRequest(BaseModel):
     page_path: str
 
+class PasswordChange(BaseModel):
+    new_password: str
+
 class GuestbookMessageCreate(BaseModel):
     name: str; message: str
 

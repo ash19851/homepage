@@ -13,7 +13,7 @@ from ..schemas.content import (
     SkillOut, SkillUpdate,
     SiteConfigOut, SiteConfigUpdate,
     TimelineEntryOut, TimelineEntryUpdate,
-    GuestbookMessageOut,
+    GuestbookMessageOut, PasswordChange,
 )
 from ..schemas.analytics import StatsOverview, StatsTimeline, StatsPageBreakdown
 
@@ -25,6 +25,12 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     if not user or not bcrypt.verify(req.password, user.password_hash):
         raise HTTPException(status_code=401, detail='用户名或密码错误')
     return {'access_token': create_token(req.username)}
+
+@router.put('/password')
+def change_password(data: PasswordChange, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+    if not content_service.change_password(db, current_user, data.new_password):
+        raise HTTPException(status_code=404, detail='用户不存在')
+    return {'ok': True}
 
 # --- Profile ---
 @router.put('/profile', response_model=ProfileOut)

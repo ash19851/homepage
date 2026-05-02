@@ -8,6 +8,13 @@ export async function login(username: string, password: string): Promise<LoginRe
   } catch { return null }
 }
 
+export async function changePassword(newPassword: string): Promise<boolean> {
+  try {
+    await api.put('/admin/password', { new_password: newPassword })
+    return true
+  } catch { return false }
+}
+
 export async function getProfile(): Promise<Profile | null> {
   try { const res = await api.get<Profile>('/public/profile'); return res.data } catch { return null }
 }

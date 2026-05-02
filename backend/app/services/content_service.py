@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage
+from passlib.hash import bcrypt
+from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage, AdminUser
 
 def get_profile(db: Session) -> Profile | None:
     return db.query(Profile).first()
@@ -140,5 +141,13 @@ def delete_guestbook_message(db: Session, msg_id: int) -> bool:
     if not msg:
         return False
     db.delete(msg)
+    db.commit()
+    return True
+
+def change_password(db: Session, username: str, new_password: str) -> bool:
+    user = db.query(AdminUser).filter(AdminUser.username == username).first()
+    if not user:
+        return False
+    user.password_hash = bcrypt.hash(new_password)
     db.commit()
     return True
