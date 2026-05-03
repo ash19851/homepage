@@ -5,6 +5,7 @@ import { ParticleBackground } from './components/particles/ParticleBackground'
 import { CursorGlow } from './components/effects/CursorGlow'
 import { RippleEffect } from './components/effects/RippleEffect'
 import { ScrollToTop } from './components/ui/ScrollToTop'
+import { KeepAlive } from './components/ui/KeepAlive'
 import { HomePage } from './pages/HomePage'
 import { ProjectsPage } from './pages/ProjectsPage'
 import { AboutPage } from './pages/AboutPage'
@@ -54,6 +55,7 @@ export default function App() {
         </Route>
       </Routes>
         <ScrollToTop />
+        <KeepAlive />
       </ThemeProvider>
     </BrowserRouter>
   )
