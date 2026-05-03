@@ -1,5 +1,5 @@
 @echo off
-echo Starting UNANG Homepage Dev Mode...
+echo Starting ash Homepage Dev Mode...
 echo.
 
 start "Backend" cmd /k "cd /d %~dp0..\backend && python seed_data.py && uvicorn app.main:app --reload --port 8000"
