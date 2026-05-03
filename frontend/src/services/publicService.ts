@@ -1,11 +1,15 @@
 import { api } from './api'
-import type { Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage, Article, StatsOverview } from '../types'
 
 function parseProject(p: Project): Project {
   if (typeof p.tech_stack === 'string') {
     try { p.tech_stack = JSON.parse(p.tech_stack) } catch { p.tech_stack = [] }
   }
   if (!Array.isArray(p.tech_stack)) p.tech_stack = []
+  if (typeof p.images === 'string') {
+    try { p.images = JSON.parse(p.images) } catch { p.images = [] }
+  }
+  if (!Array.isArray(p.images)) p.images = []
   return p
 }
 
@@ -54,6 +58,27 @@ export async function getGuestbook(): Promise<GuestbookMessage[]> {
 export async function postGuestbook(name: string, message: string): Promise<GuestbookMessage | null> {
   try {
     const res = await api.post<GuestbookMessage>('/public/guestbook', { name, message })
+    return res.data
+  } catch { return null }
+}
+
+export async function getStats(): Promise<StatsOverview | null> {
+  try {
+    const res = await api.get<StatsOverview>('/public/stats')
+    return res.data
+  } catch { return null }
+}
+
+export async function getArticles(): Promise<Article[]> {
+  try {
+    const res = await api.get<Article[]>('/public/articles')
+    return res.data || []
+  } catch { return [] }
+}
+
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  try {
+    const res = await api.get<Article>(`/public/articles/${slug}`)
     return res.data
   } catch { return null }
 }

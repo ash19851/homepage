@@ -3,7 +3,7 @@ import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 
 from app.database import init_db, SessionLocal
-from app.models.content import Profile, Project, Skill, AdminUser
+from app.models.content import Profile, Project, Skill, TimelineEntry, Article, AdminUser
 from passlib.hash import bcrypt
 import json
 
@@ -182,6 +182,42 @@ if not db.query(Skill).first():
         Skill(name='SAP HANA / 数据库', category='tools', level=68, icon='🏢', sort_order=30),
     ]
     db.add_all(skills)
+
+# 时间线
+if not db.query(TimelineEntry).first():
+    db.add_all([
+        TimelineEntry(year='2026', title='全栈个人主页', desc='React 19 + FastAPI + 9 种主题系统构建个人主页，AI 协作完成全流程开发，集成粒子动效与后台管理。', sort_order=1),
+        TimelineEntry(year='2026', title='AI 模型微调工具集', desc='Qwen 大模型 QLoRA 本地微调工具包，Gradio 流式对话 + PyQt6 桌面客户端 + Ollama 数据生成。', sort_order=2),
+        TimelineEntry(year='2026', title='游戏视觉检测工具', desc='DXCam+YOLO 实时游戏目标检测，支持 DirectX/DWM/BitBlt 三种截屏后端，含标注工具。', sort_order=3),
+        TimelineEntry(year='2026', title='单目深度估计', desc='Depth Anything V2 单目深度估计，实时摄像头 RGB+深度可视化，MediaPipe AR 虚实遮挡。', sort_order=4),
+        TimelineEntry(year='2026', title='像素肉鸽游戏', desc='2D Roguelike 游戏，ECS 架构 + 过程生成 + 装备继承 + Boss 战，Python Pygame-CE 开发。', sort_order=5),
+        TimelineEntry(year='2025', title='钓鱼邮件演练系统', desc='企业安全意识培训平台，7 种钓鱼模板，SMTP 批量发送，点击追踪 + 安全教育页面跳转。', sort_order=6),
+        TimelineEntry(year='2025', title='IT满意度调查系统', desc='Flask 在线调查平台，批量生成一次性链接，Chart.js 统计面板，Bootstrap 5 响应式。', sort_order=7),
+        TimelineEntry(year='2025', title='SAP 数据抽取工具', desc='SAP HANA 数据抽取与 Outlook 邮件分发，主数据+交易数据 CSV 导出，自动归档。', sort_order=8),
+        TimelineEntry(year='2018', title='Cisco 软电话集成', desc='企业 IP 电话系统集成，软电话控制与状态管理。', sort_order=9),
+        TimelineEntry(year='2015', title='打印服务中间件', desc='PrintServer 集中式打印服务，BarTender 引擎管理 + SSRS 报表输出。', sort_order=10),
+        TimelineEntry(year='2014', title='煤改气售后管理系统', desc='ASP.NET MVC 5 + Entity Framework 构建企业级售后系统，含工单管理、RBAC 权限、产品追踪。', sort_order=11),
+        TimelineEntry(year='2011', title='ERP 移动条码系统', desc='Windows CE PDA 手持终端开发，多品牌扫描头 SDK 封装，离线 SQLite + SOAP 同步。', sort_order=12),
+        TimelineEntry(year='2009', title='IFS 移动应用', desc='基于 IFS ERP 的工业 PDA 移动端开发，SOAP WebService 通讯，本地 SQLite 缓存。', sort_order=13),
+        TimelineEntry(year='2008', title='企业官网', desc='ASP / ASP.NET WebForms 构建企业官网与售后平台，含产品展示、新闻发布与后台管理。', sort_order=14),
+    ])
+
+# 文章
+if not db.query(Article).first():
+    db.add_all([
+        Article(title='QLoRA 微调实战：在单张消费级显卡上微调大模型', slug='qlora-finetune',
+                summary='使用 QLoRA 技术在 RTX 3060 上微调 Qwen-7B，包含完整的训练脚本、数据处理和推理部署。',
+                content_md='## 背景\n\n大模型微调一直被认为是 A100/H100 的专利。QLoRA 技术改变了这一现状——通过 4-bit 量化 + Low-Rank Adapter，在 12GB 显存的消费级显卡上也能微调 7B 模型。\n\n## 原理\n\nQLoRA = Quantization + LoRA\n\n- **4-bit NormalFloat**：新的量化数据类型\n- **双重量化**：对量化常数再量化\n- **Paged Optimizer**：统一内存管理\n\n## 实践\n\n- 模型：Qwen-7B-Chat\n- 数据：1000 条中文指令微调数据\n- LoRA Rank: 64\n\n```python\nfrom transformers import BitsAndBytesConfig\n\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_quant_type="nf4",\n)\n```',
+                category='ai', published=True),
+        Article(title='YOLO 实时游戏目标检测：从截屏到推理', slug='yolo-game-detection',
+                summary='使用 DXCam + YOLOv8 实现 FPS 游戏实时目标检测，包含截屏性能优化和标注工具链。',
+                content_md='## 概述\n\n游戏 AI 的第一步是感知。本文介绍如何构建一个高性能的游戏目标检测管线。\n\n## 截屏性能对比\n\n| 方法 | 延迟 | FPS |\n|------|------|-----|\n| PyAutoGUI | ~50ms | 20 |\n| MSS | ~15ms | 60 |\n| DXCam | ~3ms | 240+ |\n\nDXCam 利用 DirectX 直接从显存抓取，避免了 CPU→GPU 的数据搬运。\n\n## 推理优化\n\n- ONNX Runtime 加速\n- 半精度 FP16\n- CUDA Stream 并行化',
+                category='ai', published=True),
+        Article(title='ASP.NET MVC 5 企业级架构实践', slug='aspnet-mvc5-architecture',
+                summary='多年 ASP.NET MVC 5 实践总结：分层架构、依赖注入、权限系统和性能优化。',
+                content_md='## 为什么还在用 MVC 5\n\n很多企业内部系统并不需要微服务。三层架构配合 SQL Server，开发效率极高。\n\n## 分层设计\n\n- **Controller**：处理 HTTP 请求，模型绑定\n- **Service**：业务逻辑，事务管理\n- **Repository**：Dapper 读 + EF 写（CQRS-lite）\n\n## 权限系统\n\n自定义 RBAC，基于 OAuth 2.0 的 Token 认证。',
+                category='tech', published=True),
+    ])
 
 db.commit()
 db.close()

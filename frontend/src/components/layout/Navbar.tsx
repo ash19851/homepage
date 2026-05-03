@@ -8,6 +8,7 @@ import styles from './Navbar.module.css'
 const NAV_ITEMS = [
   { path: '/', label: '首页' },
   { path: '/projects', label: '项目' },
+  { path: '/blog', label: '博客' },
   { path: '/about', label: '关于' },
   { path: '/skills', label: '技能' },
   { path: '/tools', label: '工具' },

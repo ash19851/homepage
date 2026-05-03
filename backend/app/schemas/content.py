@@ -12,7 +12,8 @@ class ProfileUpdate(BaseModel):
     avatar_url: Optional[str] = None; github_url: Optional[str] = None; email: Optional[str] = None
 
 class ProjectOut(BaseModel):
-    id: int; title: str; description: str; tech_stack: Any; image_url: str; demo_url: str
+    id: int; title: str; description: str; long_description: str = ''; tech_stack: Any
+    images: Any = []; image_url: str; demo_url: str
     github_url: str; category: str; featured: bool; sort_order: int
     model_config = {'from_attributes': True}
 
@@ -25,8 +26,18 @@ class ProjectOut(BaseModel):
         if isinstance(v, list): return v
         return []
 
+    @field_validator('images', mode='before')
+    @classmethod
+    def parse_images(cls, v):
+        if isinstance(v, str):
+            try: return json.loads(v)
+            except (json.JSONDecodeError, TypeError): return []
+        if isinstance(v, list): return v
+        return []
+
 class ProjectUpdate(BaseModel):
-    title: Optional[str] = None; description: Optional[str] = None; tech_stack: Optional[str] = None
+    title: Optional[str] = None; description: Optional[str] = None; long_description: Optional[str] = None
+    tech_stack: Optional[str] = None; images: Optional[str] = None
     image_url: Optional[str] = None; demo_url: Optional[str] = None; github_url: Optional[str] = None
     category: Optional[str] = None; featured: Optional[bool] = None; sort_order: Optional[int] = None
 
@@ -45,12 +56,12 @@ class LoginResponse(BaseModel):
     access_token: str
 
 class SiteConfigOut(BaseModel):
-    id: int; site_name: str; site_theme: Optional[str] = None; footer_text: str; footer_github: str; footer_email: str
+    id: int; site_name: str; site_theme: Optional[str] = None; music_url: str = ''; footer_text: str; footer_github: str; footer_email: str
     model_config = {'from_attributes': True}
 
 class SiteConfigUpdate(BaseModel):
-    site_name: Optional[str] = None; site_theme: Optional[str] = None; footer_text: Optional[str] = None
-    footer_github: Optional[str] = None; footer_email: Optional[str] = None
+    site_name: Optional[str] = None; site_theme: Optional[str] = None; music_url: Optional[str] = None
+    footer_text: Optional[str] = None; footer_github: Optional[str] = None; footer_email: Optional[str] = None
 
 class TimelineEntryOut(BaseModel):
     id: int; year: str; title: str; desc: str; sort_order: int
@@ -71,3 +82,12 @@ class GuestbookMessageCreate(BaseModel):
 class GuestbookMessageOut(BaseModel):
     id: int; name: str; message: str; created_at: datetime
     model_config = {'from_attributes': True}
+
+class ArticleOut(BaseModel):
+    id: int; title: str; slug: str; summary: str; content_md: str; category: str
+    published: bool; created_at: datetime; updated_at: datetime
+    model_config = {'from_attributes': True}
+
+class ArticleUpdate(BaseModel):
+    title: Optional[str] = None; slug: Optional[str] = None; summary: Optional[str] = None
+    content_md: Optional[str] = None; category: Optional[str] = None; published: Optional[bool] = None

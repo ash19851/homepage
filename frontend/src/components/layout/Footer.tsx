@@ -5,7 +5,7 @@ import * as publicService from '../../services/publicService'
 import styles from './Footer.module.css'
 
 const DEFAULT_CONFIG: SiteConfig = {
-  id: 1, site_name: 'ash', site_theme: null,
+  id: 1, site_name: 'ash', site_theme: null, music_url: '',
   footer_text: 'Built with ❤️ and Claude Code.',
   footer_github: 'https://github.com', footer_email: '',
 }

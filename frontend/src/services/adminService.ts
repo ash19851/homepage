@@ -1,5 +1,5 @@
 import { api } from './api'
-import type { Profile, Project, Skill, SiteConfig, TimelineEntry, StatsOverview, StatsTimeline, StatsPageBreakdown, LoginResponse } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, Article, StatsOverview, StatsTimeline, StatsPageBreakdown, LoginResponse } from '../types'
 
 export async function getCaptcha(): Promise<{ token: string; question: string } | null> {
   try {
@@ -51,12 +51,18 @@ function serializeProject(data: Partial<Project>): Record<string, unknown> {
   if (Array.isArray(data.tech_stack)) {
     payload.tech_stack = JSON.stringify(data.tech_stack)
   }
+  if (Array.isArray(data.images)) {
+    payload.images = JSON.stringify(data.images)
+  }
   return payload
 }
 
 function deserializeProject(p: Project): Project {
   if (typeof p.tech_stack === 'string') {
     try { p.tech_stack = JSON.parse(p.tech_stack) } catch { p.tech_stack = [] }
+  }
+  if (typeof p.images === 'string') {
+    try { p.images = JSON.parse(p.images) } catch { p.images = [] }
   }
   return p
 }
@@ -119,4 +125,20 @@ export async function getStatsTimeline(days = 30): Promise<StatsTimeline[]> {
 
 export async function getStatsPages(): Promise<StatsPageBreakdown[]> {
   try { const res = await api.get<StatsPageBreakdown[]>('/admin/stats/pages'); return res.data } catch { return [] }
+}
+
+export async function getArticles(): Promise<Article[]> {
+  try { const res = await api.get<Article[]>('/admin/articles'); return res.data } catch { return [] }
+}
+
+export async function createArticle(data: Partial<Article>): Promise<Article | null> {
+  try { const res = await api.post<Article>('/admin/articles', data); return res.data } catch { return null }
+}
+
+export async function updateArticle(id: number, data: Partial<Article>): Promise<Article | null> {
+  try { const res = await api.put<Article>(`/admin/articles/${id}`, data); return res.data } catch { return null }
+}
+
+export async function deleteArticle(id: number): Promise<boolean> {
+  try { await api.delete(`/admin/articles/${id}`); return true } catch { return false }
 }

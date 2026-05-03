@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -25,7 +26,7 @@ if static_dir.exists():
 
 def _seed_if_empty():
     """首次启动时自动创建管理员账号和全部初始数据"""
-    from .models.content import AdminUser, Profile, Project, Skill, TimelineEntry
+    from .models.content import AdminUser, Profile, Project, Skill, TimelineEntry, Article
     from .services.content_service import get_site_config
     from passlib.hash import bcrypt
     import json
@@ -157,6 +158,22 @@ def _seed_if_empty():
                 TimelineEntry(year='2008', title='企业官网', desc='ASP / ASP.NET WebForms 构建企业官网与售后平台，含产品展示、新闻发布与后台管理。', sort_order=14),
             ])
 
+        if not db.query(Article).first():
+            db.add_all([
+                Article(title='QLoRA 微调实战：在单张消费级显卡上微调大模型', slug='qlora-finetune',
+                        summary='使用 QLoRA 技术在 RTX 3060 上微调 Qwen-7B，包含完整的训练脚本、数据处理和推理部署。',
+                        content_md='## 背景\n\n大模型微调一直被认为是 A100/H100 的专利。QLoRA 技术改变了这一现状——通过 4-bit 量化 + Low-Rank Adapter，在 12GB 显存的消费级显卡上也能微调 7B 模型。\n\n## 原理\n\nQLoRA = Quantization + LoRA\n\n- **4-bit NormalFloat**：新的量化数据类型，比传统的 4-bit 整数更适合正态分布的权重\n- **双重量化**：对量化常数再量化，进一步节省显存\n- **Paged Optimizer**：统一内存管理，避免 OOM\n\n## 实践\n\n训练配置：\n- 模型：Qwen-7B-Chat\n- 数据：1000 条中文指令微调数据\n- Batch Size: 4 (gradient accumulation × 4)\n- LoRA Rank: 64\n\n```python\nfrom transformers import BitsAndBytesConfig\n\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_quant_type=\"nf4\",\n    bnb_4bit_compute_dtype=torch.bfloat16,\n)\n```\n\n完整代码已开源在 GitHub。',
+                        category='ai', published=True),
+                Article(title='YOLO 实时游戏目标检测：从截屏到推理', slug='yolo-game-detection',
+                        summary='使用 DXCam + YOLOv8 实现 FPS 游戏实时目标检测，包含截屏性能优化和标注工具链。',
+                        content_md='## 概述\n\n游戏 AI 的第一步是感知。本文介绍如何构建一个高性能的游戏目标检测管线。\n\n## 截屏性能对比\n\n| 方法 | 延迟 | FPS |\n|------|------|-----|\n| PyAutoGUI | ~50ms | 20 |\n| MSS | ~15ms | 60 |\n| DXCam | ~3ms | 240+ |\n\nDXCam 利用 DirectX 直接从显存抓取，避免了 CPU→GPU 的数据搬运。\n\n## 标注工具\n\n自建了一个基于 OpenCV 的轻量标注工具，支持 YOLO 格式导出。快捷键驱动的标注流程让效率提升 3 倍。\n\n## 推理优化\n\n- ONNX Runtime 加速\n- 半精度 FP16\n- CUDA Stream 并行化\n\n最终在 RTX 3060 上实现了稳定的 60 FPS 端到端检测。',
+                        category='ai', published=True),
+                Article(title='ASP.NET MVC 5 企业级架构实践', slug='aspnet-mvc5-architecture',
+                        summary='多年 ASP.NET MVC 5 实践总结：分层架构、依赖注入、权限系统和性能优化。',
+                        content_md='## 为什么还在用 MVC 5\n\n很多企业内部系统并不需要微服务。Controller-Service-Repository 三层架构配合 SQL Server，开发效率极高，维护成本低。\n\n## 分层设计\n\n- **Controller**：处理 HTTP 请求，模型绑定，返回 View 或 JSON\n- **Service**：业务逻辑，事务管理\n- **Repository**：Dapper 读 + EF 写（CQRS-lite）\n\n## Unity DI\n\n```csharp\ncontainer.RegisterType<IUserService, UserService>();\ncontainer.RegisterType<IUnitOfWork, UnitOfWork>(new PerRequestLifetimeManager());\n```\n\n## 权限系统\n\n自定义 RBAC，基于 OAuth 2.0 的 Token 认证，资源级别的权限控制。',
+                        category='tech', published=True),
+            ])
+
         db.commit()
     finally:
         db.close()
@@ -164,4 +181,31 @@ def _seed_if_empty():
 @app.on_event('startup')
 def on_startup():
     init_db()
+    _migrate_db()
     _seed_if_empty()
+
+def _migrate_db():
+    """Add missing columns to existing tables (idempotent)."""
+    import sqlite3
+    try:
+        conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), '..', 'myhomepage.db'))
+        cur = conn.cursor()
+        # projects.long_description
+        try:
+            cur.execute("ALTER TABLE projects ADD COLUMN long_description TEXT DEFAULT ''")
+        except sqlite3.OperationalError:
+            pass
+        # projects.images
+        try:
+            cur.execute("ALTER TABLE projects ADD COLUMN images TEXT DEFAULT '[]'")
+        except sqlite3.OperationalError:
+            pass
+        # site_config.music_url
+        try:
+            cur.execute("ALTER TABLE site_config ADD COLUMN music_url VARCHAR(500) DEFAULT ''")
+        except sqlite3.OperationalError:
+            pass
+        conn.commit()
+        conn.close()
+    except Exception:
+        pass

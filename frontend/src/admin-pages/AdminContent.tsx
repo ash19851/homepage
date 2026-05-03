@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { ContentEditor } from '../components/admin/ContentEditor'
 import * as adminService from '../services/adminService'
-import type { Profile, Project, Skill, SiteConfig, TimelineEntry } from '../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, Article } from '../types'
 
 export function AdminContent() {
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -9,6 +9,7 @@ export function AdminContent() {
   const [skills, setSkills] = useState<Skill[]>([])
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null)
   const [timeline, setTimeline] = useState<TimelineEntry[]>([])
+  const [articles, setArticles] = useState<Article[]>([])
 
   const load = useCallback(() => {
     adminService.getProfile().then(setProfile)
@@ -16,6 +17,7 @@ export function AdminContent() {
     adminService.getSkills().then(setSkills)
     adminService.getSiteConfig().then(setSiteConfig)
     adminService.getTimeline().then(setTimeline)
+    adminService.getArticles().then(setArticles)
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -74,6 +76,20 @@ export function AdminContent() {
     return false
   }
 
+  const handleSaveArticle = async (data: Partial<Article>): Promise<boolean> => {
+    let result: Article | null
+    if (data.id) { result = await adminService.updateArticle(data.id, data) }
+    else { result = await adminService.createArticle(data) }
+    if (result) { load(); return true }
+    return false
+  }
+
+  const handleDeleteArticle = async (id: number): Promise<boolean> => {
+    const ok = await adminService.deleteArticle(id)
+    if (ok) { load(); return true }
+    return false
+  }
+
   return (
     <div>
       <h1 style={{ fontFamily: 'var(--font-heading)', marginBottom: 24 }}>内容管理</h1>
@@ -83,6 +99,7 @@ export function AdminContent() {
         skills={skills}
         siteConfig={siteConfig}
         timeline={timeline}
+        articles={articles}
         onSaveProfile={handleSaveProfile}
         onSaveProject={handleSaveProject}
         onDeleteProject={handleDeleteProject}
@@ -91,6 +108,8 @@ export function AdminContent() {
         onSaveSiteConfig={handleSaveSiteConfig}
         onSaveTimeline={handleSaveTimeline}
         onDeleteTimeline={handleDeleteTimeline}
+        onSaveArticle={handleSaveArticle}
+        onDeleteArticle={handleDeleteArticle}
       />
     </div>
   )

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
-from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage, AdminUser
+from ..models.content import Profile, Project, Skill, SiteConfig, TimelineEntry, GuestbookMessage, Article, AdminUser
 
 def get_profile(db: Session) -> Profile | None:
     return db.query(Profile).first()
@@ -149,5 +149,45 @@ def change_password(db: Session, username: str, new_password: str) -> bool:
     if not user:
         return False
     user.password_hash = bcrypt.hash(new_password)
+    db.commit()
+    return True
+
+# --- Articles ---
+
+def get_articles(db: Session, published_only: bool = False) -> list[Article]:
+    q = db.query(Article).order_by(Article.created_at.desc())
+    if published_only:
+        q = q.filter(Article.published == True)
+    return q.all()
+
+def get_article_by_slug(db: Session, slug: str, published_only: bool = False) -> Article | None:
+    q = db.query(Article).filter(Article.slug == slug)
+    if published_only:
+        q = q.filter(Article.published == True)
+    return q.first()
+
+def create_article(db: Session, data: dict) -> Article:
+    article = Article(**data)
+    db.add(article)
+    db.commit()
+    db.refresh(article)
+    return article
+
+def update_article(db: Session, article_id: int, data: dict) -> Article | None:
+    article = db.query(Article).filter(Article.id == article_id).first()
+    if not article:
+        return None
+    for k, v in data.items():
+        if v is not None:
+            setattr(article, k, v)
+    db.commit()
+    db.refresh(article)
+    return article
+
+def delete_article(db: Session, article_id: int) -> bool:
+    article = db.query(Article).filter(Article.id == article_id).first()
+    if not article:
+        return False
+    db.delete(article)
     db.commit()
     return True

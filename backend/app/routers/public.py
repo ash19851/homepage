@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..services import content_service, analytics_service
-from ..schemas.content import ProfileOut, ProjectOut, SkillOut, SiteConfigOut, TimelineEntryOut, VisitRequest
+from ..schemas.content import ProfileOut, ProjectOut, SkillOut, SiteConfigOut, TimelineEntryOut, VisitRequest, ArticleOut
+from ..schemas.analytics import StatsOverview
 
 router = APIRouter(prefix='/api/public', tags=['public'])
 
@@ -42,6 +43,23 @@ def get_timeline(db: Session = Depends(get_db)):
 def record_visit(req: VisitRequest, db: Session = Depends(get_db)):
     analytics_service.record_visit(db, req.page_path)
     return {'ok': True}
+
+# --- 文章 ---
+@router.get('/articles', response_model=list[ArticleOut])
+def list_articles(db: Session = Depends(get_db)):
+    return content_service.get_articles(db, published_only=True)
+
+@router.get('/articles/{slug}', response_model=ArticleOut)
+def get_article(slug: str, db: Session = Depends(get_db)):
+    article = content_service.get_article_by_slug(db, slug, published_only=True)
+    if not article:
+        raise HTTPException(status_code=404, detail='文章不存在')
+    return article
+
+# --- 统计 ---
+@router.get('/stats', response_model=StatsOverview)
+def get_stats(db: Session = Depends(get_db)):
+    return analytics_service.get_overview(db)
 
 # --- 留言 ---
 from ..schemas.content import GuestbookMessageCreate, GuestbookMessageOut

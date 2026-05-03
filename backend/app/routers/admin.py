@@ -16,6 +16,7 @@ from ..schemas.content import (
     SiteConfigOut, SiteConfigUpdate,
     TimelineEntryOut, TimelineEntryUpdate,
     GuestbookMessageOut, PasswordChange,
+    ArticleOut, ArticleUpdate,
 )
 from ..schemas.analytics import StatsOverview, StatsTimeline, StatsPageBreakdown
 
@@ -153,6 +154,28 @@ def admin_list_guestbook(db: Session = Depends(get_db), _: str = Depends(get_cur
 def delete_guestbook(msg_id: int, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
     if not content_service.delete_guestbook_message(db, msg_id):
         raise HTTPException(status_code=404, detail='留言不存在')
+    return {'ok': True}
+
+# --- Articles ---
+@router.get('/articles', response_model=list[ArticleOut])
+def list_articles(db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    return content_service.get_articles(db)
+
+@router.post('/articles', response_model=ArticleOut)
+def create_article(data: ArticleUpdate, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    return content_service.create_article(db, data.model_dump(exclude_none=True))
+
+@router.put('/articles/{article_id}', response_model=ArticleOut)
+def update_article(article_id: int, data: ArticleUpdate, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    article = content_service.update_article(db, article_id, data.model_dump(exclude_none=True))
+    if not article:
+        raise HTTPException(status_code=404, detail='文章不存在')
+    return article
+
+@router.delete('/articles/{article_id}')
+def delete_article(article_id: int, db: Session = Depends(get_db), _: str = Depends(get_current_user)):
+    if not content_service.delete_article(db, article_id):
+        raise HTTPException(status_code=404, detail='文章不存在')
     return {'ok': True}
 
 # --- Stats ---

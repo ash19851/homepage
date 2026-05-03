@@ -18,7 +18,9 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     description = Column(Text, default='')
+    long_description = Column(Text, default='')
     tech_stack = Column(Text, default='[]')
+    images = Column(Text, default='[]')
     image_url = Column(String(500), default='')
     demo_url = Column(String(500), default='')
     github_url = Column(String(500), default='')
@@ -44,6 +46,7 @@ class SiteConfig(Base):
     id = Column(Integer, primary_key=True, index=True)
     site_name = Column(String(100), default='ash')
     site_theme = Column(String(50), nullable=True, default=None)
+    music_url = Column(String(500), default='')
     footer_text = Column(String(500), default='Built with Claude Code.')
     footer_github = Column(String(500), default='https://github.com')
     footer_email = Column(String(200), default='')
@@ -70,6 +73,18 @@ class AdminUser(Base):
     username = Column(String(100), unique=True, nullable=False)
     password_hash = Column(String(200), nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+class Article(Base):
+    __tablename__ = 'articles'
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=False)
+    slug = Column(String(200), unique=True, nullable=False)
+    summary = Column(Text, default='')
+    content_md = Column(Text, default='')
+    category = Column(String(50), default='tech')
+    published = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 class LoginAttempt(Base):
     __tablename__ = 'login_attempts'

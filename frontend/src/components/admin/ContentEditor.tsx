@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { Profile, Project, Skill, SiteConfig, TimelineEntry } from '../../types'
+import type { Profile, Project, Skill, SiteConfig, TimelineEntry, Article } from '../../types'
 import { THEMES } from '../../types'
 import styles from './ContentEditor.module.css'
 
@@ -9,6 +9,7 @@ interface Props {
   skills: Skill[]
   siteConfig: SiteConfig | null
   timeline: TimelineEntry[]
+  articles: Article[]
   onSaveProfile: (data: Partial<Profile>) => Promise<boolean>
   onSaveProject: (data: Partial<Project>) => Promise<boolean>
   onDeleteProject: (id: number) => Promise<boolean>
@@ -17,33 +18,36 @@ interface Props {
   onSaveSiteConfig: (data: Partial<SiteConfig>) => Promise<boolean>
   onSaveTimeline: (data: Partial<TimelineEntry>) => Promise<boolean>
   onDeleteTimeline: (id: number) => Promise<boolean>
+  onSaveArticle: (data: Partial<Article>) => Promise<boolean>
+  onDeleteArticle: (id: number) => Promise<boolean>
 }
 
-type Tab = 'profile' | 'projects' | 'skills' | 'site' | 'timeline'
+type Tab = 'profile' | 'projects' | 'skills' | 'timeline' | 'articles' | 'site'
 
 export function ContentEditor({
-  profile, projects, skills, siteConfig, timeline,
+  profile, projects, skills, siteConfig, timeline, articles,
   onSaveProfile, onSaveProject, onDeleteProject, onSaveSkill, onDeleteSkill, onSaveSiteConfig,
-  onSaveTimeline, onDeleteTimeline,
+  onSaveTimeline, onDeleteTimeline, onSaveArticle, onDeleteArticle,
 }: Props) {
   const [tab, setTab] = useState<Tab>('profile')
   const [toast, setToast] = useState('')
   const [editProject, setEditProject] = useState<Partial<Project> | null>(null)
   const [editSkill, setEditSkill] = useState<Partial<Skill> | null>(null)
   const [editTimeline, setEditTimeline] = useState<Partial<TimelineEntry> | null>(null)
+  const [editArticle, setEditArticle] = useState<Partial<Article> | null>(null)
 
   // Profile form
   const [pf, setPf] = useState({ name: '', title: '', bio: '', email: '', github_url: '' })
   useEffect(() => { if (profile) setPf({ name: profile.name, title: profile.title, bio: profile.bio, email: profile.email, github_url: profile.github_url }) }, [profile])
 
   // Site config form
-  const [sc, setSc] = useState({ site_name: '', site_theme: '', footer_text: '', footer_github: '', footer_email: '' })
-  useEffect(() => { if (siteConfig) setSc({ site_name: siteConfig.site_name, site_theme: siteConfig.site_theme || '', footer_text: siteConfig.footer_text, footer_github: siteConfig.footer_github, footer_email: siteConfig.footer_email }) }, [siteConfig])
+  const [sc, setSc] = useState({ site_name: '', site_theme: '', music_url: '', footer_text: '', footer_github: '', footer_email: '' })
+  useEffect(() => { if (siteConfig) setSc({ site_name: siteConfig.site_name, site_theme: siteConfig.site_theme || '', music_url: siteConfig.music_url || '', footer_text: siteConfig.footer_text, footer_github: siteConfig.footer_github, footer_email: siteConfig.footer_email }) }, [siteConfig])
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 2000) }
 
   const TAB_LABELS: Record<Tab, string> = {
-    profile: '个人资料', projects: '项目管理', skills: '技能管理', timeline: '成长轨迹', site: '站点设置',
+    profile: '个人资料', projects: '项目管理', skills: '技能管理', timeline: '成长轨迹', articles: '文章管理', site: '站点设置',
   }
 
   return (
@@ -145,6 +149,32 @@ export function ContentEditor({
         </div>
       )}
 
+      {/* === Articles === */}
+      {tab === 'articles' && (
+        <div className={styles.form}>
+          <h3>文章列表</h3>
+          {articles.map((a) => (
+            <div key={a.id} className={styles.item}>
+              <div>
+                <strong>{a.title}</strong>
+                <span className={styles.muted}> — {a.category}</span>
+                <span className={styles.muted} style={{ marginLeft: 8 }}>{a.published ? '✅ 已发布' : '📝 草稿'}</span>
+                <div className={styles.muted} style={{ fontSize: '0.75rem', marginTop: 4 }}>{a.summary?.slice(0, 60)}...</div>
+              </div>
+              <div className={styles.itemActions}>
+                <button className="btn" onClick={() => setEditArticle({ ...a })}>编辑</button>
+                <button className={styles.dangerBtn} onClick={async () => {
+                  if (await onDeleteArticle(a.id)) showToast('文章已删除')
+                }}>删除</button>
+              </div>
+            </div>
+          ))}
+          <button className="btn" onClick={() => setEditArticle({ title: '', slug: '', summary: '', content_md: '', category: 'tech', published: false })}>
+            + 新增文章
+          </button>
+        </div>
+      )}
+
       {/* === Site Config === */}
       {tab === 'site' && (
         <div className={styles.form}>
@@ -159,6 +189,8 @@ export function ContentEditor({
               <option key={t.key} value={t.key}>{t.label} — {t.description}</option>
             ))}
           </select>
+          <label>背景音乐 URL (留空关闭)</label>
+          <input className={styles.input} value={sc.music_url} onChange={(e) => setSc({ ...sc, music_url: e.target.value })} placeholder="https://example.com/music.mp3" />
           <label>页脚文字</label>
           <input className={styles.input} value={sc.footer_text} onChange={(e) => setSc({ ...sc, footer_text: e.target.value })} placeholder="Built with Claude Code." />
           <label>页脚 GitHub 链接</label>
@@ -178,8 +210,12 @@ export function ContentEditor({
             <h3>{editProject.id ? '编辑项目' : '新增项目'}</h3>
             <label>标题</label>
             <input className={styles.input} value={editProject.title || ''} onChange={(e) => setEditProject({ ...editProject, title: e.target.value })} />
-            <label>描述</label>
-            <textarea className={styles.textarea} rows={3} value={editProject.description || ''} onChange={(e) => setEditProject({ ...editProject, description: e.target.value })} />
+            <label>简短描述</label>
+            <textarea className={styles.textarea} rows={2} value={editProject.description || ''} onChange={(e) => setEditProject({ ...editProject, description: e.target.value })} />
+            <label>详细描述</label>
+            <textarea className={styles.textarea} rows={4} value={editProject.long_description || ''} onChange={(e) => setEditProject({ ...editProject, long_description: e.target.value })} />
+            <label>图片 URL (逗号分隔)</label>
+            <input className={styles.input} value={Array.isArray(editProject.images) ? editProject.images.join(', ') : ''} onChange={(e) => setEditProject({ ...editProject, images: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })} />
             <label>分类</label>
             <select className={styles.input} value={editProject.category || 'web'} onChange={(e) => setEditProject({ ...editProject, category: e.target.value })}>
               <option value="web">Web</option>
@@ -249,6 +285,40 @@ export function ContentEditor({
               <button className="btn" onClick={() => setEditTimeline(null)}>取消</button>
               <button className="btn btn-primary" onClick={async () => {
                 if (await onSaveTimeline(editTimeline)) { showToast(editTimeline.id ? '条目已更新' : '条目已创建'); setEditTimeline(null) }
+              }}>保存</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* === Article Edit Modal === */}
+      {editArticle && (
+        <div className={styles.modal} onClick={() => setEditArticle(null)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h3>{editArticle.id ? '编辑文章' : '新增文章'}</h3>
+            <label>标题</label>
+            <input className={styles.input} value={editArticle.title || ''} onChange={(e) => setEditArticle({ ...editArticle, title: e.target.value })} />
+            <label>Slug (URL 标识)</label>
+            <input className={styles.input} value={editArticle.slug || ''} onChange={(e) => setEditArticle({ ...editArticle, slug: e.target.value })} placeholder="my-blog-post" />
+            <label>摘要</label>
+            <textarea className={styles.textarea} rows={2} value={editArticle.summary || ''} onChange={(e) => setEditArticle({ ...editArticle, summary: e.target.value })} />
+            <label>分类</label>
+            <select className={styles.input} value={editArticle.category || 'tech'} onChange={(e) => setEditArticle({ ...editArticle, category: e.target.value })}>
+              <option value="tech">技术</option>
+              <option value="ai">AI/ML</option>
+              <option value="web">Web</option>
+              <option value="other">其他</option>
+            </select>
+            <label>Markdown 内容</label>
+            <textarea className={styles.textarea} rows={10} value={editArticle.content_md || ''} onChange={(e) => setEditArticle({ ...editArticle, content_md: e.target.value })} />
+            <label>
+              <input type="checkbox" checked={editArticle.published || false} onChange={(e) => setEditArticle({ ...editArticle, published: e.target.checked })} />
+              {' '}发布
+            </label>
+            <div className={styles.modalActions}>
+              <button className="btn" onClick={() => setEditArticle(null)}>取消</button>
+              <button className="btn btn-primary" onClick={async () => {
+                if (await onSaveArticle(editArticle)) { showToast(editArticle.id ? '文章已更新' : '文章已创建'); setEditArticle(null) }
               }}>保存</button>
             </div>
           </div>

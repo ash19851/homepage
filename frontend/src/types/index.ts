@@ -34,7 +34,9 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  long_description: string;
   tech_stack: string[];
+  images: string[];
   image_url: string;
   demo_url: string;
   github_url: string;
@@ -89,6 +91,7 @@ export interface SiteConfig {
   id: number;
   site_name: string;
   site_theme: string | null;
+  music_url: string;
   footer_text: string;
   footer_github: string;
   footer_email: string;
@@ -114,4 +117,16 @@ export interface GuestbookMessage {
   name: string;
   message: string;
   created_at: string;
+}
+
+export interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  content_md: string;
+  category: string;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
 }

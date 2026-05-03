@@ -6,7 +6,7 @@ import { TypewriterText } from '../components/effects/TypewriterText'
 import { NeonBorder } from '../components/effects/NeonBorder'
 import { MagneticButton } from '../components/effects/MagneticButton'
 import { StatCounter } from '../components/ui/StatCounter'
-import type { Profile } from '../types'
+import type { Profile, StatsOverview } from '../types'
 import * as publicService from '../services/publicService'
 import styles from './HomePage.module.css'
 
@@ -19,9 +19,11 @@ const HIGHLIGHTS = [
 
 export function HomePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [stats, setStats] = useState<StatsOverview | null>(null)
 
   useEffect(() => {
     publicService.getProfile().then((p) => { if (p) setProfile(p) })
+    publicService.getStats().then((s) => { if (s) setStats(s) })
   }, [])
 
   return (
@@ -73,10 +75,10 @@ export function HomePage() {
         <div className="container">
           <h2 className="section-title">数字足迹</h2>
           <div className={styles.statsGrid}>
-            <StatCounter end={15} label="完成项目" suffix="+" />
-            <StatCounter end={5000} label="代码提交" suffix="+" />
-            <StatCounter end={8} label="技术栈掌握" suffix="" />
-            <StatCounter end={24} label="日均编码" suffix="/7" />
+            <StatCounter end={18} label="完成项目" suffix="+" />
+            <StatCounter end={stats ? stats.total_visits : 0} label="网站访问" suffix="" />
+            <StatCounter end={stats ? stats.today_visits : 0} label="今日访客" suffix="" />
+            <StatCounter end={stats ? stats.unique_ips : 0} label="独立访客" suffix="" />
           </div>
         </div>
       </section>
