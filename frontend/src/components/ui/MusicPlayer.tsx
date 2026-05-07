@@ -20,7 +20,7 @@ export function MusicPlayer() {
           const name = c.music_url.split('/').pop()?.split('?')[0] || 'Music'
           setTitle(decodeURIComponent(name))
         } catch {
-          setTitle('Music')
+          setTitle('音乐')
         }
       }
     })

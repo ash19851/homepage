@@ -18,7 +18,7 @@ export function AdminSidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
         <span className={styles.brandBracket}>&lt;</span>
-        <span className={styles.brandText}>ADMIN</span>
+        <span className={styles.brandText}>后台</span>
         <span className={styles.brandBracket}> /&gt;</span>
       </div>
       <nav className={styles.nav}>

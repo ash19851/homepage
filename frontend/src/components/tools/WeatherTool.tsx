@@ -122,7 +122,7 @@ export function WeatherTool() {
           value={city}
           onChange={(e) => setCity(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && searchCity(city)}
-          placeholder="输入城市名 (如 Beijing, Tokyo, London)"
+          placeholder="输入城市名 (如 北京, 上海, 东京)"
         />
         <motion.button className={styles.btn} onClick={() => searchCity(city)} disabled={loading}
           whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

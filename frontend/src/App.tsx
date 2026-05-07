@@ -6,7 +6,7 @@ import { ParticleBackground } from './components/particles/ParticleBackground'
 import { CursorGlow } from './components/effects/CursorGlow'
 import { RippleEffect } from './components/effects/RippleEffect'
 import { ScrollToTop } from './components/ui/ScrollToTop'
-import { KeepAlive } from './components/ui/KeepAlive'
+
 import { MusicPlayer } from './components/ui/MusicPlayer'
 import { BrightnessToggle } from './components/ui/BrightnessToggle'
 import { PageTransition } from './components/ui/PageTransition'
@@ -71,7 +71,6 @@ export default function App() {
         <ParticleBackground />
         <AnimatedRoutes />
         <ScrollToTop />
-        <KeepAlive />
         <MusicPlayer />
         <BrightnessToggle />
       </ThemeProvider>

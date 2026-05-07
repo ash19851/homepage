@@ -163,7 +163,7 @@ export function SubnetTool() {
               { label: '地址范围', value: `${result.firstHost} ~ ${result.lastHost}` },
               { label: '总地址数', value: result.totalHosts.toLocaleString() },
               { label: '可用主机数', value: result.usableHosts.toLocaleString() },
-              { label: '地址类别', value: `Class ${result.class}` },
+              { label: '地址类别', value: `${result.class} 类地址` },
             ].map((item) => (
               <motion.div key={item.label} className={styles.resultItem} variants={itemVariants}
                 whileHover={{ scale: 1.03, borderColor: 'var(--color-accent)' }}>

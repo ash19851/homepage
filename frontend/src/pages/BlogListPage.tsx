@@ -6,7 +6,7 @@ import * as publicService from '../services/publicService'
 import styles from './BlogListPage.module.css'
 
 const CATEGORY_LABELS: Record<string, string> = {
-  tech: '技术', ai: 'AI/ML', web: 'Web', other: '其他',
+  tech: '技术', ai: 'AI/机器学习', web: '网页', other: '其他',
 }
 
 export function BlogListPage() {

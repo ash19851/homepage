@@ -6,27 +6,27 @@ function safeEval(expr: string): string {
   const sanitized = expr.replace(/[^0-9+\-*/().%^&\s]|Math\.\w+|PI|E/g, '')
   try {
     const result = new Function(`return (${sanitized})`)()
-    if (typeof result !== 'number' || !isFinite(result)) return 'Error'
+    if (typeof result !== 'number' || !isFinite(result)) return '错误'
     return String(Number(result.toPrecision(12)))
   } catch {
-    return 'Error'
+    return '错误'
   }
 }
 
 const MATH_FNS: { label: string; insert: string; desc: string }[] = [
-  { label: 'sqrt', insert: 'Math.sqrt(', desc: '平方根' },
-  { label: 'pow', insert: 'Math.pow(', desc: '幂运算' },
-  { label: 'sin', insert: 'Math.sin(', desc: '正弦 (弧度)' },
-  { label: 'cos', insert: 'Math.cos(', desc: '余弦 (弧度)' },
-  { label: 'tan', insert: 'Math.tan(', desc: '正切 (弧度)' },
-  { label: 'log', insert: 'Math.log(', desc: '自然对数' },
-  { label: 'log10', insert: 'Math.log10(', desc: '以10为底' },
-  { label: 'abs', insert: 'Math.abs(', desc: '绝对值' },
-  { label: 'ceil', insert: 'Math.ceil(', desc: '向上取整' },
-  { label: 'floor', insert: 'Math.floor(', desc: '向下取整' },
-  { label: 'round', insert: 'Math.round(', desc: '四舍五入' },
-  { label: 'PI', insert: 'Math.PI', desc: '圆周率 π' },
-  { label: 'E', insert: 'Math.E', desc: '自然常数 e' },
+  { label: '开方', insert: 'Math.sqrt(', desc: '平方根' },
+  { label: '幂', insert: 'Math.pow(', desc: '幂运算' },
+  { label: '正弦', insert: 'Math.sin(', desc: '正弦 (弧度)' },
+  { label: '余弦', insert: 'Math.cos(', desc: '余弦 (弧度)' },
+  { label: '正切', insert: 'Math.tan(', desc: '正切 (弧度)' },
+  { label: '对数', insert: 'Math.log(', desc: '自然对数' },
+  { label: '对数10', insert: 'Math.log10(', desc: '以10为底' },
+  { label: '绝对值', insert: 'Math.abs(', desc: '绝对值' },
+  { label: '上整', insert: 'Math.ceil(', desc: '向上取整' },
+  { label: '下整', insert: 'Math.floor(', desc: '向下取整' },
+  { label: '四舍五入', insert: 'Math.round(', desc: '四舍五入' },
+  { label: 'π', insert: 'Math.PI', desc: '圆周率' },
+  { label: 'e', insert: 'Math.E', desc: '自然常数' },
 ]
 
 export function MathTool() {
@@ -49,7 +49,7 @@ export function MathTool() {
           value={expr}
           onChange={(e) => setExpr(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') evaluate() }}
-          placeholder="输入数学表达式, 如 2 + 3 * 4 或 Math.sqrt(16)"
+          placeholder="输入数学表达式, 如 2 + 3 * 4 或点击下方函数"
           whileFocus={{ scale: 1.01, borderColor: 'var(--color-accent)' }}
         />
         <motion.button className={styles.btn} onClick={evaluate}

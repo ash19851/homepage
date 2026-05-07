@@ -82,7 +82,7 @@ def delete_skill(db: Session, skill_id: int) -> bool:
 def get_site_config(db: Session) -> SiteConfig:
     config = db.query(SiteConfig).first()
     if not config:
-        config = SiteConfig(site_name='ash', footer_text='Built with Claude Code.', footer_github='https://github.com', footer_email='')
+        config = SiteConfig(site_name='ash', footer_text='由 Claude Code 构建', footer_github='https://github.com', footer_email='')
         db.add(config)
         db.commit()
         db.refresh(config)

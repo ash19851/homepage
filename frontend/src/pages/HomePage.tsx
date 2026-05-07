@@ -31,10 +31,10 @@ export function HomePage() {
       <div className="container">
         <motion.div className={styles.heroContent}
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-          <p className={styles.greeting}>Hello, 我是</p>
+          <p className={styles.greeting}>你好, 我是</p>
           <h1 className={styles.name}>{profile?.name ?? '...'}</h1>
           <div className={styles.typewriterLine}>
-            <span className={styles.prefix}>I build </span>
+            <span className={styles.prefix}>我构建 </span>
             <TypewriterText
               texts={['全栈 Web 应用', '沉浸式交互体验', 'Python 后端服务', 'AI 驱动的工具', '游戏化 UI 界面']}
               speed={60} deleteSpeed={30} pause={2500}

@@ -34,7 +34,7 @@ export function ProjectsPage() {
                 className={`${styles.filterBtn} ${filter === cat ? styles.filterActive : ''}`}
                 onClick={() => setFilter(cat)}
               >
-                {cat === 'all' ? '全部' : cat === 'web' ? 'Web' : cat === 'ai' ? 'AI' : cat === 'game' ? '游戏' : '工业/工具'}
+                {cat === 'all' ? '全部' : cat === 'web' ? '网页' : cat === 'ai' ? 'AI/机器学习' : cat === 'game' ? '游戏' : '工业/工具'}
               </button>
             ))}
           </div>

@@ -71,7 +71,7 @@ export function ContentEditor({
           <input className={styles.input} value={pf.title} onChange={(e) => setPf({ ...pf, title: e.target.value })} />
           <label>邮箱</label>
           <input className={styles.input} value={pf.email} onChange={(e) => setPf({ ...pf, email: e.target.value })} />
-          <label>GitHub</label>
+          <label>GitHub 链接</label>
           <input className={styles.input} value={pf.github_url} onChange={(e) => setPf({ ...pf, github_url: e.target.value })} />
           <label>简介</label>
           <textarea className={styles.textarea} rows={4} value={pf.bio} onChange={(e) => setPf({ ...pf, bio: e.target.value })} />
@@ -192,11 +192,11 @@ export function ContentEditor({
           <label>背景音乐 URL (留空关闭)</label>
           <input className={styles.input} value={sc.music_url} onChange={(e) => setSc({ ...sc, music_url: e.target.value })} placeholder="https://example.com/music.mp3" />
           <label>页脚文字</label>
-          <input className={styles.input} value={sc.footer_text} onChange={(e) => setSc({ ...sc, footer_text: e.target.value })} placeholder="Built with Claude Code." />
+          <input className={styles.input} value={sc.footer_text} onChange={(e) => setSc({ ...sc, footer_text: e.target.value })} placeholder="由 Claude Code 构建" />
           <label>页脚 GitHub 链接</label>
-          <input className={styles.input} value={sc.footer_github} onChange={(e) => setSc({ ...sc, footer_github: e.target.value })} placeholder="https://github.com/yourname" />
+          <input className={styles.input} value={sc.footer_github} onChange={(e) => setSc({ ...sc, footer_github: e.target.value })} placeholder="https://github.com/你的用户名" />
           <label>页脚邮箱</label>
-          <input className={styles.input} value={sc.footer_email} onChange={(e) => setSc({ ...sc, footer_email: e.target.value })} placeholder="you@example.com" />
+          <input className={styles.input} value={sc.footer_email} onChange={(e) => setSc({ ...sc, footer_email: e.target.value })} placeholder="你的邮箱@example.com" />
           <button className="btn btn-primary" onClick={async () => {
             if (await onSaveSiteConfig(sc)) showToast('站点设置已保存')
           }}>保存设置</button>
@@ -218,14 +218,14 @@ export function ContentEditor({
             <input className={styles.input} value={Array.isArray(editProject.images) ? editProject.images.join(', ') : ''} onChange={(e) => setEditProject({ ...editProject, images: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })} />
             <label>分类</label>
             <select className={styles.input} value={editProject.category || 'web'} onChange={(e) => setEditProject({ ...editProject, category: e.target.value })}>
-              <option value="web">Web</option>
-              <option value="ai">AI</option>
+              <option value="web">网页</option>
+              <option value="ai">AI/机器学习</option>
               <option value="game">游戏</option>
               <option value="other">工业/工具</option>
             </select>
             <label>技术栈 (逗号分隔)</label>
             <input className={styles.input} value={Array.isArray(editProject.tech_stack) ? editProject.tech_stack.join(', ') : ''} onChange={(e) => setEditProject({ ...editProject, tech_stack: e.target.value.split(',').map((s) => s.trim()) })} />
-            <label>GitHub URL</label>
+            <label>GitHub 链接</label>
             <input className={styles.input} value={editProject.github_url || ''} onChange={(e) => setEditProject({ ...editProject, github_url: e.target.value })} />
             <label>演示 URL</label>
             <input className={styles.input} value={editProject.demo_url || ''} onChange={(e) => setEditProject({ ...editProject, demo_url: e.target.value })} />
@@ -252,7 +252,7 @@ export function ContentEditor({
             <select className={styles.input} value={editSkill.category || 'other'} onChange={(e) => setEditSkill({ ...editSkill, category: e.target.value })}>
               <option value="frontend">前端</option>
               <option value="backend">后端</option>
-              <option value="ai">AI/ML</option>
+              <option value="ai">AI/机器学习</option>
               <option value="tools">工具</option>
               <option value="other">其他</option>
             </select>
@@ -298,18 +298,18 @@ export function ContentEditor({
             <h3>{editArticle.id ? '编辑文章' : '新增文章'}</h3>
             <label>标题</label>
             <input className={styles.input} value={editArticle.title || ''} onChange={(e) => setEditArticle({ ...editArticle, title: e.target.value })} />
-            <label>Slug (URL 标识)</label>
-            <input className={styles.input} value={editArticle.slug || ''} onChange={(e) => setEditArticle({ ...editArticle, slug: e.target.value })} placeholder="my-blog-post" />
+            <label>URL 标识</label>
+            <input className={styles.input} value={editArticle.slug || ''} onChange={(e) => setEditArticle({ ...editArticle, slug: e.target.value })} placeholder="我的文章" />
             <label>摘要</label>
             <textarea className={styles.textarea} rows={2} value={editArticle.summary || ''} onChange={(e) => setEditArticle({ ...editArticle, summary: e.target.value })} />
             <label>分类</label>
             <select className={styles.input} value={editArticle.category || 'tech'} onChange={(e) => setEditArticle({ ...editArticle, category: e.target.value })}>
               <option value="tech">技术</option>
-              <option value="ai">AI/ML</option>
-              <option value="web">Web</option>
+              <option value="ai">AI/机器学习</option>
+              <option value="web">网页</option>
               <option value="other">其他</option>
             </select>
-            <label>Markdown 内容</label>
+            <label>文章内容 (Markdown)</label>
             <textarea className={styles.textarea} rows={10} value={editArticle.content_md || ''} onChange={(e) => setEditArticle({ ...editArticle, content_md: e.target.value })} />
             <label>
               <input type="checkbox" checked={editArticle.published || false} onChange={(e) => setEditArticle({ ...editArticle, published: e.target.checked })} />
