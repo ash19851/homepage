@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { ThemeProvider } from './themes/theme-context'
@@ -6,6 +7,15 @@ import { ParticleBackground } from './components/particles/ParticleBackground'
 import { CursorGlow } from './components/effects/CursorGlow'
 import { RippleEffect } from './components/effects/RippleEffect'
 import { ScrollToTop } from './components/ui/ScrollToTop'
+import { recordVisit } from './services/publicService'
+
+function TrackVisit() {
+  const location = useLocation()
+  useEffect(() => {
+    recordVisit(location.pathname)
+  }, [location.pathname])
+  return null
+}
 
 import { MusicPlayer } from './components/ui/MusicPlayer'
 import { BrightnessToggle } from './components/ui/BrightnessToggle'
@@ -69,6 +79,7 @@ export default function App() {
         <CursorGlow />
         <RippleEffect />
         <ParticleBackground />
+        <TrackVisit />
         <AnimatedRoutes />
         <ScrollToTop />
         <MusicPlayer />
