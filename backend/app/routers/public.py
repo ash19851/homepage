@@ -7,6 +7,10 @@ from ..schemas.analytics import StatsOverview
 
 router = APIRouter(prefix='/api/public', tags=['public'])
 
+@router.get('/ping')
+def ping():
+    return {'ok': True}
+
 @router.get('/profile', response_model=ProfileOut)
 def get_profile(db: Session = Depends(get_db)):
     profile = content_service.get_profile(db)
